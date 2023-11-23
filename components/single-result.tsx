@@ -36,6 +36,7 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
   return (
     <li key={props.week} className="my-6 w-full">
       <div className="flex flex-col">
+        <span> Viikko: {props.week}</span>
         <span>Oikea rivi</span>
         <div className="grid grid-cols-9 border p-2 justify-between items-center">
           {lotteryResult?.numbers.map((number, index) => (
@@ -47,16 +48,16 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
         <span>Rivisi</span>
         {props.rows.map((row, rowIndex) => {
           return (
-            <div className="border">
-              <div
-                key={rowIndex}
-                className="grid grid-cols-9 p-2 justify-between items-center"
-              >
+            <div className="border" key={rowIndex}>
+              <div className="grid grid-cols-9 p-2 justify-between items-center">
                 {row.map((number, index) => {
                   return (
                     <div
+                      key={index}
                       className={`border rounded-full text-center text-lg mx-2 ${
-                        playerResults[rowIndex].correctNumbers.includes(number) || number === lotteryResult.extraNumber
+                        playerResults[rowIndex].correctNumbers.includes(
+                          number
+                        ) || number === lotteryResult.extraNumber
                           ? "bg-green-200"
                           : "bg-slate-100"
                       }`}
@@ -67,7 +68,10 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
                 })}
               </div>
               <div>
-                <span className="font-regular">Osumat: {playerResults[rowIndex].correctNumbers.length} {playerResults[rowIndex].extraCorrect ? '+ 1' : ''}</span>
+                <span className="font-regular">
+                  Osumat: {playerResults[rowIndex].correctNumbers.length}{" "}
+                  {playerResults[rowIndex].extraCorrect ? "+ 1" : ""}
+                </span>
               </div>
             </div>
           );
