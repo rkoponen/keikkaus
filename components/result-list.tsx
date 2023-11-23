@@ -19,31 +19,29 @@ const ResultList = (props: ResultListProps) => {
   const [resultList, setResultList] = useState<React.JSX.Element[]>([]);
   const [week, setWeek] = useState<number>(1);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  //const resultList: React.JSX.Element[] = [];
 
   useEffect(() => {
-    // Function to add a new item to the list
-    const addNewItem = () => {
-      if (week <= weeks) {
-        setResultList((prevItems) => [
-          ...prevItems,
-          <SingleResult rows={props.rows} week={week} />,
-        ]);
-        setWeek(week + 1);
+    const addNewItems = () => {
+      if (week < weeks) {
+        const newItems: React.JSX.Element[] = [];
+        for (let i = week; i < week + 10 && i <= weeks; i++) {
+          newItems.push(<SingleResult rows={props.rows} week={i} />);
+          setWeek(i)
+        }
+    
+        setResultList((prevItems) => [...prevItems, ...newItems]);
       } else {
         clearInterval(intervalId);
       }
     };
 
-    // Set up an interval to add a new item every 2 seconds (adjust as needed)
-    const intervalId = setInterval(addNewItem, 20);
+    const intervalId = setInterval(addNewItems, 4);
 
-    // Clean up the interval when the component is unmounted
     return () => clearInterval(intervalId);
   }, [week, weeks, props.rows]);
 
   useEffect(() => {
-    // Scroll to the bottom when resultList changes
+    //Scroll to the bottom of the result scroll div
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop =
         scrollContainerRef.current.scrollHeight;
