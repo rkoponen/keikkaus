@@ -44,6 +44,7 @@ const LottoPage = () => {
 
   const handleSliderChange = (value: number[]) => {
     setYears(value[0]);
+    setStartSimulation(false)
   };
 
   const handleClickSimulation = () => {
@@ -100,6 +101,7 @@ const LottoPage = () => {
                         <span
                           key={innerIndex}
                           className="border rounded-full p-1 text-lg sm:text-sm m-1"
+                          data-testid="selected-number"
                         >
                           {number}
                         </span>
@@ -107,6 +109,7 @@ const LottoPage = () => {
                       <button
                         className="bg-red-500 text-white m-1 rounded-full flex justify-center items-center"
                         onClick={() => handleClickDelete(index)}
+                        data-testid="delete"
                       >
                         <BsTrash3 />
                       </button>
