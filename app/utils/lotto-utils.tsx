@@ -66,12 +66,12 @@ const winningCategories: WinningCategory[] = [
   {
     checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
       correctNumbers.length === 6 && extraCorrect,
-    prize: 100000,
+    prize: 140000,
   },
   {
     checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
       correctNumbers.length === 6,
-    prize: 2000,
+    prize: 3000,
   },
   {
     checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
