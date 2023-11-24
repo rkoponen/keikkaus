@@ -78,8 +78,8 @@ const ResultList = (props: ResultListProps) => {
   }, [resultList]);
 
   return (
-    <div className="w-1/2">
-      <div className="overflow-y-scroll h-96" ref={scrollContainerRef}>
+    <div className="">
+      <div className="overflow-y-scroll h-96 mb-6 border p-2 rounded-xl" ref={scrollContainerRef}>
         <ul>{resultList}</ul>
       </div>
       <div className="flex flex-row justify-between">

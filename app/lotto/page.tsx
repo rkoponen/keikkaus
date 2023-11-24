@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BsTrash3 } from "react-icons/bs";
 import { selectLotteryNumbers } from "../utils/lotto-utils";
 import ResultList from "@/components/result-list";
@@ -20,6 +20,7 @@ const LottoPage = () => {
   const [rows, setRows] = useState<number[][]>([]);
   const [years, setYears] = useState<number>(25);
   const [startSimulation, setStartSimulation] = useState<boolean>(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (number: number) => {
     if (selectedNumbers.includes(number)) {
@@ -44,16 +45,22 @@ const LottoPage = () => {
 
   const handleSliderChange = (value: number[]) => {
     setYears(value[0]);
-    setStartSimulation(false)
+    setStartSimulation(false);
   };
 
   const handleClickSimulation = () => {
-    setStartSimulation(true)
-  }
+    setStartSimulation(true);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 flex flex-col w-full items-center justify-between font-mono text-sm">
+      <div className="z-10 flex flex-col w-full items-center justify-center font-mono text-sm">
         <h1 className="text-lg">Valitse numerot</h1>
         <div className="grid grid-cols-10 rounded-lg border p-2 w-1/2">
           {lottoNumbers.map((x) => {
@@ -138,9 +145,9 @@ const LottoPage = () => {
             <Button onClick={handleClickSimulation}>Aloita simulaatio</Button>
           </div>
         </div>
-        {
-          startSimulation && <ResultList years={years} rows={rows} />
-        }
+        <div className="w-1/2" ref={scrollContainerRef}>
+          {startSimulation && <ResultList years={years} rows={rows} />}
+        </div>
       </div>
     </main>
   );
