@@ -41,7 +41,7 @@ const ResultList = (props: ResultListProps) => {
             newMoneyUsed += 1;
 
             if (!newBestResult || result.winAmount > newBestResult.winAmount) {
-              newBestResult = result
+              newBestResult = result;
             }
 
             return result;
@@ -68,7 +68,7 @@ const ResultList = (props: ResultListProps) => {
     const intervalId = setInterval(addNewItems, 50);
 
     return () => clearInterval(intervalId);
-  }, [week, weeks, props.rows, moneyUsed, wins]);
+  }, [week, weeks, props.rows, moneyUsed, wins, bestResult]);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -94,7 +94,10 @@ const ResultList = (props: ResultListProps) => {
       </div>
       <div className="w-full bg-cyan-200 flex flex-col justify-center items-center p-8 rounded-b-lg">
         <p className="">Paras tulos</p>
-        <p className="text-lg">{bestResult?.correctNumbers.length}{bestResult?.extraCorrect ? ' + 1' : ''} oikein</p>
+        <p className="text-lg">
+          {bestResult?.correctNumbers.length}
+          {bestResult?.extraCorrect ? " + 1" : ""} oikein
+        </p>
         <p className="text-lg">Voitto: {bestResult?.winAmount}€</p>
       </div>
     </div>
