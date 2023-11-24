@@ -43,7 +43,7 @@ export const checkResult = (
   // console.log(`arvottu ${lotteryResult.numbers}`);
   // console.log("---------------------------------");
 
-  let extraCorrect: boolean = playerRow.includes(lotteryResult.extraNumber);
+  let extraCorrect: boolean = (correctNumbers.length === 6 || correctNumbers.length === 3) && playerRow.includes(lotteryResult.extraNumber);
 
   return {
     correctNumbers: correctNumbers,

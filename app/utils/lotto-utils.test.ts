@@ -28,13 +28,49 @@ describe("checkResult", () => {
     const playerRow = [1, 2, 3, 4, 5, 6, 7];
     const lotteryResult: LotteryResult = {
       numbers: [8, 9, 10, 11, 12, 13, 14],
-      extraNumber: 1,
+      extraNumber: 24,
     };
 
     const result: Result = checkResult(playerRow, lotteryResult);
 
     expect(result.correctNumbers).toEqual([]);
+    expect(result.extraCorrect).toBeFalsy();
+  });
+
+  test("should return extraNumber true if there are 3 or 6 correctNumbers", () => {
+    const playerRow = [1, 2, 3, 4, 5, 6, 7];
+    const lotteryResult: LotteryResult = {
+      numbers: [1, 2, 3, 11, 12, 13, 14],
+      extraNumber: 6,
+    };
+
+    const result: Result = checkResult(playerRow, lotteryResult);
+
+    expect(result.correctNumbers).toHaveLength(3);
     expect(result.extraCorrect).toBeTruthy();
+
+    const secondRow = [1, 2, 3, 4, 5, 6, 7];
+    const secondLotteryResult: LotteryResult = {
+      numbers: [1, 2, 3, 4, 5, 6],
+      extraNumber: 7,
+    };
+    const secondResult = checkResult(secondRow, secondLotteryResult);
+
+    expect(secondResult.correctNumbers).toHaveLength(6);
+    expect(result.extraCorrect).toBeTruthy();
+  });
+
+  test("should return extraNumber false when other amount of correctNumbers than 3 or 6", () => {
+    const playerRow = [1, 2, 3, 4, 5, 6, 7];
+    const lotteryResult: LotteryResult = {
+      numbers: [8, 9, 10, 11, 12, 13, 14],
+      extraNumber: 6,
+    };
+
+    const result: Result = checkResult(playerRow, lotteryResult);
+
+    expect(result.correctNumbers).toHaveLength(0);
+    expect(result.extraCorrect).toBeFalsy();
   });
 
   test("should return the correct amount of correct numbers", () => {
@@ -45,6 +81,6 @@ describe("checkResult", () => {
     };
     const result: Result = checkResult(playerRow, lotteryResult);
 
-    expect(result.correctNumbers).toHaveLength(3)
+    expect(result.correctNumbers).toHaveLength(3);
   });
 });
