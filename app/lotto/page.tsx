@@ -6,6 +6,7 @@ import { BsTrash3 } from "react-icons/bs";
 import { selectLotteryNumbers } from "../utils/lotto-utils";
 import ResultList from "@/components/result-list";
 import { start } from "repl";
+import { ButtonTooltip } from "@/components/button-tooltip";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
@@ -149,11 +150,21 @@ const LottoPage = () => {
               />
               <span className="text-lg font-medium">{years} vuotta</span>
             </div>
-            <Button onClick={handleClickSimulation}>
-              {startSimulation === true
-                ? `Lopeta simulaatio`
-                : "Aloita simulaatio"}
-            </Button>
+            <ButtonTooltip
+              button={
+                <Button
+                  className="w-full"
+                  onClick={handleClickSimulation}
+                  disabled={rows.length === 0}
+                >
+                  {startSimulation === true
+                    ? `Lopeta simulaatio`
+                    : "Aloita simulaatio"}
+                </Button>
+              }
+              text={"Valitse vähintään yksi rivi."}
+              hidden={rows.length === 0}
+            />
           </div>
         </div>
         <div className="w-1/2" ref={scrollContainerRef}>
