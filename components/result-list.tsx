@@ -9,6 +9,7 @@ import {
 } from "@/app/utils/lotto-utils";
 import { BsPlusLg } from "react-icons/bs";
 import { setTimeout } from "timers";
+import { render } from "@testing-library/react";
 
 interface ResultListProps {
   key: number;
@@ -31,12 +32,13 @@ const ResultList = (props: ResultListProps) => {
   useEffect(() => {
     if (props.startSimulation) {
       const addNewItems = () => {
-        if (week < weeks) {
+        if (week <= weeks) {
           let newWins = wins;
           let newMoneyUsed = moneyUsed;
           let newBestResult = bestResult;
           const newItems: React.JSX.Element[] = [];
-          for (let i = week; i < week + 10 && i <= weeks; i++) {
+          const renderSpeed = props.years > 20 ? Math.round(props.years / 10) + 2 : 1
+          for (let i = week; i < week + renderSpeed && i <= weeks; i++) {
             const lotteryResult = selectLotteryNumbers();
 
             const playerResults: Result[] = props.rows.map((row) => {
@@ -62,7 +64,7 @@ const ResultList = (props: ResultListProps) => {
               />
             );
           }
-          setWeek(week + 10);
+          setWeek(week + renderSpeed);
           setMoneyUsed(newMoneyUsed);
           setWins(newWins);
           setResultList((prevItems) => [...prevItems, ...newItems]);
@@ -72,7 +74,8 @@ const ResultList = (props: ResultListProps) => {
           props.onSimulationDone();
         }
       };
-      const intervalDuration = Math.max(5000 / weeks, 50)
+      // const intervalDuration = Math.max(25000 / weeks, 50);
+      const intervalDuration = props.years < 20 ? 20 : 50
       const intervalId = setInterval(addNewItems, intervalDuration);
 
       return () => clearInterval(intervalId);
