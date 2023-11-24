@@ -11,8 +11,11 @@ import { BsPlusLg } from "react-icons/bs";
 import { setTimeout } from "timers";
 
 interface ResultListProps {
+  key: number;
   years: number;
   rows: number[][];
+  onSimulationDone: () => void;
+  startSimulation: boolean;
 }
 
 const ResultList = (props: ResultListProps) => {
@@ -26,49 +29,55 @@ const ResultList = (props: ResultListProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const addNewItems = () => {
-      if (week < weeks) {
-        let newWins = wins;
-        let newMoneyUsed = moneyUsed;
-        let newBestResult = bestResult;
-        const newItems: React.JSX.Element[] = [];
-        for (let i = week; i < week + 10 && i <= weeks; i++) {
-          const lotteryResult = selectLotteryNumbers();
+    if (props.startSimulation) {
+      const addNewItems = () => {
+        if (week < weeks) {
+          let newWins = wins;
+          let newMoneyUsed = moneyUsed;
+          let newBestResult = bestResult;
+          const newItems: React.JSX.Element[] = [];
+          for (let i = week; i < week + 10 && i <= weeks; i++) {
+            const lotteryResult = selectLotteryNumbers();
 
-          const playerResults: Result[] = props.rows.map((row) => {
-            const result = checkResult(row, lotteryResult);
-            newWins += result.winAmount;
-            newMoneyUsed += 1;
+            const playerResults: Result[] = props.rows.map((row) => {
+              const result = checkResult(row, lotteryResult);
+              newWins += result.winAmount;
+              newMoneyUsed += 1;
 
-            if (!newBestResult || result.winAmount > newBestResult.winAmount) {
-              newBestResult = result;
-            }
+              if (
+                !newBestResult ||
+                result.winAmount > newBestResult.winAmount
+              ) {
+                newBestResult = result;
+              }
 
-            return result;
-          });
-          newItems.push(
-            <SingleResult
-              lotteryResult={lotteryResult}
-              playerResults={playerResults}
-              rows={props.rows}
-              week={i}
-            />
-          );
+              return result;
+            });
+            newItems.push(
+              <SingleResult
+                lotteryResult={lotteryResult}
+                playerResults={playerResults}
+                rows={props.rows}
+                week={i}
+              />
+            );
+          }
+          setWeek(week + 10);
+          setMoneyUsed(newMoneyUsed);
+          setWins(newWins);
+          setResultList((prevItems) => [...prevItems, ...newItems]);
+          setBestResult(newBestResult);
+        } else {
+          clearInterval(intervalId);
+          props.onSimulationDone();
         }
-        setWeek(week + 10);
-        setMoneyUsed(newMoneyUsed);
-        setWins(newWins);
-        setResultList((prevItems) => [...prevItems, ...newItems]);
-        setBestResult(newBestResult);
-      } else {
-        clearInterval(intervalId);
-      }
-    };
+      };
+      const intervalDuration = Math.max(5000 / weeks, 50)
+      const intervalId = setInterval(addNewItems, intervalDuration);
 
-    const intervalId = setInterval(addNewItems, 50);
-
-    return () => clearInterval(intervalId);
-  }, [week, weeks, props.rows, moneyUsed, wins, bestResult]);
+      return () => clearInterval(intervalId);
+    }
+  }, [week, weeks, props.rows, moneyUsed, wins, bestResult, props]);
 
   useEffect(() => {
     if (scrollContainerRef.current) {
@@ -79,7 +88,10 @@ const ResultList = (props: ResultListProps) => {
 
   return (
     <div className="">
-      <div className="overflow-y-scroll h-96 mb-6 border p-2 rounded-xl" ref={scrollContainerRef}>
+      <div
+        className="overflow-y-scroll h-96 mb-6 border p-2 rounded-xl"
+        ref={scrollContainerRef}
+      >
         <ul>{resultList}</ul>
       </div>
       <div className="flex flex-row justify-between">

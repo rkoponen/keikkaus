@@ -20,6 +20,8 @@ const LottoPage = () => {
   const [rows, setRows] = useState<number[][]>([]);
   const [years, setYears] = useState<number>(25);
   const [startSimulation, setStartSimulation] = useState<boolean>(false);
+  const [resultListKey, setResultListKey] = useState<number>(0);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (number: number) => {
@@ -49,13 +51,18 @@ const LottoPage = () => {
   };
 
   const handleClickSimulation = () => {
-    setStartSimulation(true);
+    setStartSimulation(!startSimulation);
+    setResultListKey((prev) => prev + 1);
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
+  };
+
+  const handleSimulationDone = () => {
+    setStartSimulation(false);
   };
 
   return (
@@ -142,11 +149,23 @@ const LottoPage = () => {
               />
               <span className="text-lg font-medium">{years} vuotta</span>
             </div>
-            <Button onClick={handleClickSimulation}>Aloita simulaatio</Button>
+            <Button onClick={handleClickSimulation}>
+              {startSimulation === true
+                ? `Lopeta simulaatio`
+                : "Aloita simulaatio"}
+            </Button>
           </div>
         </div>
         <div className="w-1/2" ref={scrollContainerRef}>
-          {startSimulation && <ResultList years={years} rows={rows} />}
+          {rows.length > 0 && (
+            <ResultList
+              onSimulationDone={handleSimulationDone}
+              startSimulation={startSimulation}
+              years={years}
+              rows={rows}
+              key={resultListKey}
+            />
+          )}
         </div>
       </div>
     </main>
