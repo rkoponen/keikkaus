@@ -30,9 +30,9 @@ interface SingleResultProps {
 
 const SingleResult: React.FC<SingleResultProps> = (props) => {
   return (
-    <div key={props.week} className="my-6 w-full">
+    <div key={props.week} className="w-full bg-white py-2">
       <div className="flex flex-col">
-        <span> Viikko: {props.week}</span>
+        <span> Arvonta: {props.week}.</span>
         <span>Oikea rivi</span>
         <div className="grid grid-cols-9 border p-2 justify-between items-center rounded-lg my-2">
           {props.lotteryResult.numbers.map((number, index) => (
