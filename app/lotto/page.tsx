@@ -21,9 +21,13 @@ const LottoPage = () => {
   const [rows, setRows] = useState<number[][]>([]);
   const [years, setYears] = useState<number>(25);
   const [startSimulation, setStartSimulation] = useState<boolean>(false);
+  const [simulationStarted, setSimulationStarted] = useState<boolean>(false);
   const [resultListKey, setResultListKey] = useState<number>(0);
+  const [simulationDone, setSimulationDone] = useState<boolean>(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const numbersDivRef = useRef<HTMLDivElement>(null);
 
   const handleClick = (number: number) => {
     if (selectedNumbers.includes(number)) {
@@ -52,25 +56,52 @@ const LottoPage = () => {
   };
 
   const handleClickSimulation = () => {
-    setStartSimulation(!startSimulation);
+    setSimulationDone(false);
+    const started = !startSimulation;
+    setStartSimulation(started);
     setResultListKey((prev) => prev + 1);
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+
+    if (!started) {
+      if (numbersDivRef.current) {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      }
+    } else {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollIntoView({
+          behavior: "instant",
+          block: "start",
+        });
+      }
     }
   };
 
   const handleSimulationDone = () => {
+    setSimulationDone(true);
     setStartSimulation(false);
+  };
+
+  const handleRowClick = () => {
+    const newRows = [
+      [1, 2, 3, 4, 5, 6, 7],
+      [8, 9, 10, 11, 12, 13, 14],
+      [16, 17, 18, 19, 20, 21, 22],
+      [24, 25, 26, 27, 29, 30, 31],
+    ];
+    setRows(newRows);
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 flex flex-col w-full items-center justify-center font-mono text-sm">
+        <div>
+          <Button onClick={handleRowClick}>Rivit</Button>
+          <Button onClick={() => setYears(1)}>Vuodet</Button>
+        </div>
         <h1 className="text-lg">Valitse numerot</h1>
-        <div className="grid grid-cols-10 rounded-lg border p-2 w-1/2">
+        <div
+          ref={numbersDivRef}
+          className="grid grid-cols-10 rounded-lg border p-2 w-1/2"
+        >
           {lottoNumbers.map((x) => {
             const selected = selectedNumbers.includes(x);
             return (
@@ -150,25 +181,25 @@ const LottoPage = () => {
               />
               <span className="text-lg font-medium">{years} vuotta</span>
             </div>
-            <ButtonTooltip
-              button={
-                <Button
-                  className="w-full"
-                  onClick={handleClickSimulation}
-                  disabled={rows.length === 0}
-                >
-                  {startSimulation === true
-                    ? `Lopeta simulaatio`
-                    : "Aloita simulaatio"}
-                </Button>
-              }
-              text={"Valitse vähintään yksi rivi."}
-              hidden={rows.length === 0}
-            />
           </div>
         </div>
-        <div className="w-1/2" ref={scrollContainerRef}>
-          {rows.length > 0 && (
+        <div className="w-1/2 pt-4" ref={scrollContainerRef}>
+          <ButtonTooltip
+            button={
+              <Button
+                className="w-full"
+                onClick={handleClickSimulation}
+                disabled={rows.length === 0}
+              >
+                {startSimulation === true
+                  ? `Lopeta simulaatio`
+                  : "Aloita simulaatio"}
+              </Button>
+            }
+            text={"Valitse vähintään yksi rivi."}
+            hidden={rows.length === 0}
+          />
+          {(startSimulation || simulationDone) && (
             <ResultList
               onSimulationDone={handleSimulationDone}
               startSimulation={startSimulation}
