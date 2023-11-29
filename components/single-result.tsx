@@ -15,7 +15,7 @@ interface LotteryNumberProps {
 
 const LotteryNumber: React.FC<LotteryNumberProps> = ({ number }) => {
   return (
-    <div className="border rounded-full w-10 h-10 flex items-center justify-center text-lg mx-2 bg-green-200">
+    <div className="border rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-green-200">
       {number}
     </div>
   );
@@ -34,12 +34,12 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
       <div className="flex flex-col">
         <span> Arvonta: {props.week}.</span>
         <span>Oikea rivi</span>
-        <div className="grid grid-cols-9 border p-2 justify-between items-center rounded-lg my-2">
+        <div className="flex flex-row border p-2 gap-1 justify-between items-center rounded-lg my-2">
           {props.lotteryResult.numbers.map((number, index) => (
             <LotteryNumber key={index} number={number} />
           ))}
-          <BsPlusLg className="text-2xl mr-auto ml-auto" />
-          <div className="border rounded-full w-10 h-10 flex items-center justify-center text-lg mx-2 bg-slate-100 border-green-400">
+          <BsPlusLg className="text-2xl" />
+          <div className="border rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center text-lg bg-slate-100 border-green-400">
             {props.lotteryResult.extraNumber}
           </div>
         </div>
@@ -49,15 +49,15 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
           const win = winAmount > 0;
           return (
             <div
-              className="border p-2 rounded-xl mb-2 flex flex-row"
+              className="border p-2 rounded-xl mb-2 flex flex-col sm:flex-row gap-2 sm:gap-6"
               key={rowIndex}
             >
-              <div className="grid grid-cols-9 justify-between items-center gap-7">
+              <div className="flex flew-row justify-between items-center gap-2">
                 {row.map((number, index) => {
                   return (
                     <div
                       key={index}
-                      className={`flex items-center justify-center border rounded-full text-center mx-2 w-8 h-8 ${
+                      className={`flex items-center justify-center border rounded-full text-center w-8 h-8 ${
                         props.playerResults[rowIndex].correctNumbers.includes(
                           number
                         )
@@ -74,7 +74,7 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
                   );
                 })}
               </div>
-              <div className="flex flex-row justify-between flex-grow items-center w-full">
+              <div className="flex flex-row justify-between items-center w-full">
                 <span className="">
                   Osumat: {props.playerResults[rowIndex].correctNumbers.length}{" "}
                   {props.playerResults[rowIndex].extraCorrect ? "+ 1" : ""}

@@ -141,7 +141,7 @@ const ResultList = (props: ResultListProps) => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex w-full h-1/2 my-6 border rounded-lg p-4">
+      <div className="flex w-full h-1/2 my-6 border rounded-lg p-1">
         <AutoSizer>
           {({ height, width }) => (
             <List
