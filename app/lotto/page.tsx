@@ -2,11 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import React, { useRef, useState } from "react";
-import { BsChat, BsPencil, BsTrash3, BsTrash3Fill } from "react-icons/bs";
-import { selectLotteryNumbers } from "../utils/lotto-utils";
+import { BsTrash3Fill, BsPCircle } from "react-icons/bs";
+import { selectPlusNumber } from "../utils/lotto-utils";
 import ResultList from "@/components/result-list";
 import { start } from "repl";
 import { ButtonTooltip } from "@/components/button-tooltip";
+import ChosenNumbers from "@/components/chosen-numbers";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
@@ -16,13 +19,19 @@ const sortNumbers = (numbers: number[], newNumber: number) => {
   return [...numbers, newNumber].sort((a, b) => a - b);
 };
 
+export type PlayerNumbers = {
+  numbers: number[];
+  plusNumber?: number;
+};
+
 const LottoPage = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
-  const [rows, setRows] = useState<number[][]>([]);
+  const [rows, setRows] = useState<PlayerNumbers[]>([]);
   const [years, setYears] = useState<number>(25);
   const [startSimulation, setStartSimulation] = useState<boolean>(false);
   const [resultListKey, setResultListKey] = useState<number>(0);
   const [simulationDone, setSimulationDone] = useState<boolean>(false);
+  const [plusNumber, setPlusNumber] = useState<boolean>(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -34,8 +43,11 @@ const LottoPage = () => {
       setSelectedNumbers(newNumbers);
     } else if (selectedNumbers.length < 7) {
       if (selectedNumbers.length === 6) {
-        const newRow = sortNumbers(selectedNumbers, number);
-        setRows([...rows, newRow]);
+        const newNumbers: PlayerNumbers = {
+          numbers: sortNumbers(selectedNumbers, number),
+          plusNumber: plusNumber ? selectPlusNumber() : undefined,
+        };
+        setRows([...rows, newNumbers]);
         setSelectedNumbers([]);
       } else {
         setSelectedNumbers(sortNumbers(selectedNumbers, number));
@@ -52,6 +64,24 @@ const LottoPage = () => {
   const handleSliderChange = (value: number[]) => {
     setYears(value[0]);
     setStartSimulation(false);
+  };
+
+  const handleSwitchChange = () => {
+    let plus = !plusNumber;
+    setPlusNumber(plus);
+    if (plus) {
+      let newRows = rows;
+      newRows.forEach((row) => {
+        row.plusNumber = selectPlusNumber();
+      });
+      setRows(newRows);
+    } else {
+      let newRows = rows;
+      newRows.forEach((row) => {
+        row.plusNumber = undefined;
+      });
+      setRows(newRows);
+    }
   };
 
   const handleClickSimulation = () => {
@@ -81,13 +111,13 @@ const LottoPage = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 sm:p-24">
-      <div className="z-10 flex flex-col gap-6 w-full lg:w-1/2 items-center justify-center font-mono text-sm">
+      <div className="z-10 flex flex-col gap-6 w-full lg:w-5/12 items-center justify-center font-mono text-sm">
         <h1 className="text-xl">Lotto</h1>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-full">
           <h1 className="text-lg">Valitse numerot</h1>
           <div
             ref={numbersDivRef}
-            className="grid grid-cols-8 gap-2 grid-rows-5 sm:grid-cols-10 sm:grid-rows-4 rounded-lg w-full "
+            className="grid grid-cols-8 gap-2 grid-rows-5 sm:grid-cols-10 sm:grid-rows-4 rounded-lg w-full"
           >
             {lottoNumbers.map((x) => {
               const selected = selectedNumbers.includes(x);
@@ -95,7 +125,7 @@ const LottoPage = () => {
                 <div
                   key={x}
                   onClick={() => handleClick(x)}
-                  className={`bg-cyan-600 hover:bg-green-400 rounded-full flex justify-center text-sm h-10 sm:h-12 w-10 sm:w-12 items-center text-slate-100 hover:shadow-lg cursor-pointer ${
+                  className={`bg-cyan-600 hover:border hover:border-cyan-400 rounded-full flex justify-center text-sm h-10 sm:h-12 w-10 sm:w-12 items-center text-slate-100 cursor-pointer ${
                     selected ? "bg-green-500" : ""
                   }`}
                 >
@@ -105,45 +135,40 @@ const LottoPage = () => {
             })}
           </div>
         </div>
-        <div className="w-full md:w-3/4">
+        <div className="w-full">
           <h2 className="text-lg text-center">Valitut numerot</h2>
-          <div className="p-2 border rounded-xl border-cyan-600">
-            <div className="text-center flex flex-row justify-between">
-              {Array.from({ length: 7 }, (x, i) => i).map((x) => {
-                return (
-                  <span
-                    key={x}
-                    className="border border-cyan-200 rounded-full w-10 h-10 p-1 text-lg m-1"
-                  >
-                    <div className="h-full flex  items-center justify-center">
-                      {selectedNumbers[x] ? selectedNumbers[x] : ""}
-                    </div>
-                  </span>
-                );
-              })}
-            </div>
-          </div>
+          <ChosenNumbers selectedNumbers={selectedNumbers} length={7} />
         </div>
-        <div className="w-full md:w-3/4 text-center">
+        <div className="w-full text-center">
           <h2 className="text-lg text-center">Valitut rivit</h2>
           {rows.length > 0 ? (
             <div className="w-full">
               {rows.map((row, index) => (
                 <div
                   key={index}
-                  className="flex flex-row mt-2 p-2 border rounded-xl justify-between items-center text-center w-full"
+                  className="flex flex-row gap-1 mt-2 p-2 border rounded-xl justify-between items-center text-center w-full"
                 >
-                  {row.map((number, innerIndex) => (
+                  {row.numbers.map((number, innerIndex) => (
                     <div
                       key={innerIndex}
-                      className="flex items-center justify-center border rounded-full p-1 w-10 h-10 m-1 text-sm"
+                      className="flex items-center justify-center border rounded-full p-1 w-8 h-8 sm:w-10 sm:h-10 text-sm"
                       data-testid="selected-number"
                     >
                       {number}
                     </div>
                   ))}
+                  {row.plusNumber && (
+                    <div className="flex flex-row items-center justify-between gap-2">
+                      <div>
+                        <BsPCircle className="w-6 h-6 text-purple-500 rounded-full" />
+                      </div>
+                      <div className="flex items-center justify-center border-purple-500 border rounded-full p-1 w-8 sm:w-10 h-8 sm:h-10">
+                        {row.plusNumber}
+                      </div>
+                    </div>
+                  )}
                   <button
-                    className="bg-red-500 text-white w-10 h-10 rounded-full flex justify-center items-center"
+                    className="bg-red-500 text-white w-8 sm:w-10 h-8 sm:h-10 rounded-full flex justify-center items-center"
                     onClick={() => handleClickDelete(index)}
                     data-testid="delete"
                   >
@@ -156,7 +181,14 @@ const LottoPage = () => {
             <p>Valitse vähintään yksi rivi.</p>
           )}
         </div>
-        <div className="w-full md:w-3/4 text-center">
+        {rows.length > 0 && (
+          <div className="flex items-center space-x-2">
+            <Label htmlFor="plus-number">Plus-numero? 0.50€/rivi.</Label>
+            <Switch id="plus-number" onCheckedChange={handleSwitchChange} />
+          </div>
+        )}
+
+        <div className="text-center w-full">
           <label className="" htmlFor="slider">
             Kuinka monta vuotta haluat simuloida?
           </label>
@@ -171,7 +203,7 @@ const LottoPage = () => {
           />
           <span className="text-lg font-medium">{years} vuotta</span>
         </div>
-        <div className="w-full md:w-3/4 h-screen" ref={scrollContainerRef}>
+        <div className="w-full h-screen" ref={scrollContainerRef}>
           <ButtonTooltip
             button={
               <Button
