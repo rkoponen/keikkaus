@@ -14,11 +14,12 @@ import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Button } from "./ui/button";
+import { PlayerNumbers } from "@/app/lotto/page";
 
 interface ResultListProps {
   key: number;
   years: number;
-  rows: number[][];
+  rows: PlayerNumbers[];
   onSimulationDone: () => void;
   startSimulation: boolean;
 }
@@ -56,7 +57,7 @@ const ResultList = (props: ResultListProps) => {
             const playerResults: Result[] = props.rows.map((row) => {
               const result = checkResult(row, lotteryResult);
               newWins += result.winAmount;
-              newMoneyUsed += 1;
+              row.plusNumber ? (newMoneyUsed += 1.5) : (newMoneyUsed += 1);
 
               if (
                 !newBestResult ||
@@ -121,11 +122,11 @@ const ResultList = (props: ResultListProps) => {
   };
 
   const getRowHeight = () => {
-    console.log(rowHeight.current);
+    console.log(`Rowheihgt: ${rowHeight.current}`);
     if (rowHeight.current) {
       return rowHeight.current;
     }
-    return props.rows.length * 80;
+    return props.rows.length * 80 + 200;
   };
 
   const scrollToBottom = () => {

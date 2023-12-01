@@ -1,11 +1,15 @@
+import { PlayerNumbers } from "../lotto/page";
+
 export type LotteryResult = {
   numbers: number[];
   extraNumber: number;
+  plusNumber: number;
 };
 
 export type Result = {
   correctNumbers: number[];
   extraCorrect: boolean;
+  plusCorrect?: boolean;
   winAmount: number;
 };
 
@@ -21,19 +25,26 @@ export const selectLotteryNumbers = (): LotteryResult => {
   // console.log(selectedNumbers.sort((a, b) => a - b));
   const extraNumber = numbers[7];
 
+  const plusNumber = Math.floor(Math.random() * 30) + 1;
+
   return {
     numbers: selectedNumbers.sort((a, b) => a - b),
     extraNumber: extraNumber,
+    plusNumber: plusNumber,
   };
 };
 
+export const selectPlusNumber = () => {
+  return Math.floor(Math.random() * 30) + 1;
+};
+
 export const checkResult = (
-  playerRow: number[],
+  playerRow: PlayerNumbers,
   lotteryResult: LotteryResult
 ): Result => {
   let correctNumbers: number[] = [];
 
-  playerRow.forEach((number, index) => {
+  playerRow.numbers.forEach((number, index) => {
     if (lotteryResult.numbers.includes(number))
       correctNumbers = [...correctNumbers, number];
   });
@@ -43,12 +54,16 @@ export const checkResult = (
   // console.log(`arvottu ${lotteryResult.numbers}`);
   // console.log("---------------------------------");
 
-  let extraCorrect: boolean = playerRow.includes(lotteryResult.extraNumber);
+  let extraCorrect: boolean = playerRow.numbers.includes(
+    lotteryResult.extraNumber
+  );
+  const plusCorrect: boolean = playerRow.plusNumber == lotteryResult.plusNumber;
 
   return {
     correctNumbers: correctNumbers,
     extraCorrect: extraCorrect,
-    winAmount: calculateWinAmount(correctNumbers, extraCorrect),
+    plusCorrect: plusCorrect,
+    winAmount: calculateWinAmount(correctNumbers, extraCorrect, plusCorrect),
   };
 };
 
@@ -92,11 +107,18 @@ const winningCategories: WinningCategory[] = [
 
 export const calculateWinAmount = (
   correctNumbers: number[],
-  extraCorrect: boolean
+  extraCorrect: boolean,
+  plusCorrect: boolean
 ): number => {
   const matchingCategory = winningCategories.find((category) =>
     category.checkWin(correctNumbers, extraCorrect)
   );
 
-  return matchingCategory ? matchingCategory.prize : 0;
+  if (plusCorrect && correctNumbers.length <= 3 && !extraCorrect) return 5;
+
+  if (plusCorrect && correctNumbers.length != 7) {
+    return matchingCategory ? matchingCategory.prize * 5 : 0;
+  } else {
+    return matchingCategory ? matchingCategory.prize : 0;
+  }
 };
