@@ -142,7 +142,7 @@ const ResultList = (props: ResultListProps) => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex w-full h-1/2 my-6 border rounded-lg p-1">
+      <div className={`flex w-full ${props.rows.length < 4 ? "h-1/3" : "h-1/2"} my-6 border rounded-lg p-1`}>
         <AutoSizer>
           {({ height, width }) => (
             <List
@@ -161,11 +161,11 @@ const ResultList = (props: ResultListProps) => {
       <div className="flex flex-row justify-between">
         <div className="bg-green-200 flex flex-col justify-center items-center p-8 w-1/2 rounded-tl-lg">
           <p>Voitot</p>
-          <p className="text-xl">{wins}€</p>
+          <p className="text-xl">{wins.toLocaleString("fi-FI", { style: "currency", currency: "EUR"})}</p>
         </div>
         <div className="bg-red-200 flex flex-col justify-center items-center p-8 w-1/2 rounded-tr-lg">
           <p>Rahaa käytetty</p>
-          <p className="text-xl">{moneyUsed}€</p>
+          <p className="text-xl">{moneyUsed.toLocaleString("fi-FI", { style: "currency", currency: "EUR"})}</p>
         </div>
       </div>
       <div className="w-full bg-cyan-200 flex flex-col justify-center items-center p-8 rounded-b-lg">
@@ -174,7 +174,7 @@ const ResultList = (props: ResultListProps) => {
           {bestResult?.result.correctNumbers.length}
           {bestResult?.result.extraCorrect ? " + 1" : ""} oikein
         </p>
-        <p className="text-lg">Voitto: {bestResult?.result.winAmount}€</p>
+        <p className="text-lg">Voitto: {bestResult?.result.winAmount.toLocaleString("fi-FI", { style: "currency", currency: "EUR"})}</p>
         <Button onClick={handleClickJump}>Näytä</Button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { PlayerNumbers } from "../lotto/page";
+import prizeData from "../prizeData.json";
 
 export type LotteryResult = {
   numbers: number[];
@@ -13,6 +14,13 @@ export type Result = {
   winAmount: number;
 };
 
+enum PrizeCategories {
+  Seven = "7 oikein",
+  SixPlusOne = "6+1 oikein",
+  Six = "6 oikein",
+  Five = "5 oikein",
+}
+
 const numbers = Array.from({ length: 40 }, (_, index) => index + 1);
 
 export const selectLotteryNumbers = (): LotteryResult => {
@@ -22,7 +30,6 @@ export const selectLotteryNumbers = (): LotteryResult => {
   }
 
   const selectedNumbers = numbers.slice(0, 7);
-  // console.log(selectedNumbers.sort((a, b) => a - b));
   const extraNumber = numbers[7];
 
   const plusNumber = Math.floor(Math.random() * 30) + 1;
@@ -48,11 +55,6 @@ export const checkResult = (
     if (lotteryResult.numbers.includes(number))
       correctNumbers = [...correctNumbers, number];
   });
-  // console.log("---------------------------------");
-  // console.log(`correct ${correctNumbers}`);
-  // console.log(`player ${playerRow}`);
-  // console.log(`arvottu ${lotteryResult.numbers}`);
-  // console.log("---------------------------------");
 
   let extraCorrect: boolean = playerRow.numbers.includes(
     lotteryResult.extraNumber
@@ -67,58 +69,30 @@ export const checkResult = (
   };
 };
 
-interface WinningCategory {
-  checkWin: (correctNumbers: number[], extraCorrect: boolean) => boolean;
-  prize: number;
-}
-
-const winningCategories: WinningCategory[] = [
-  {
-    checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
-      correctNumbers.length === 7,
-    prize: 7000000,
-  },
-  {
-    checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
-      correctNumbers.length === 6 && extraCorrect,
-    prize: 140000,
-  },
-  {
-    checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
-      correctNumbers.length === 6,
-    prize: 3000,
-  },
-  {
-    checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
-      correctNumbers.length === 5,
-    prize: 50,
-  },
-  {
-    checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
-      correctNumbers.length === 4,
-    prize: 10,
-  },
-  {
-    checkWin: (correctNumbers: number[], extraCorrect: boolean) =>
-      correctNumbers.length === 3 && extraCorrect,
-    prize: 2,
-  },
-];
+const getRandomFromArray = (arrayKey: PrizeCategories) => {
+  const array = prizeData[arrayKey];
+  return array[Math.floor(Math.random() * array.length)];
+};
 
 export const calculateWinAmount = (
   correctNumbers: number[],
   extraCorrect: boolean,
   plusCorrect: boolean
 ): number => {
-  const matchingCategory = winningCategories.find((category) =>
-    category.checkWin(correctNumbers, extraCorrect)
-  );
+  let win = 0;
+  if (correctNumbers.length === 7)
+    return getRandomFromArray(PrizeCategories.Seven);
+  if (correctNumbers.length === 6 && extraCorrect)
+    win = getRandomFromArray(PrizeCategories.SixPlusOne);
+  if (correctNumbers.length === 6)
+    win = getRandomFromArray(PrizeCategories.Six);
+  if (correctNumbers.length === 5)
+    win = getRandomFromArray(PrizeCategories.Five);
+  if (correctNumbers.length === 4) win = 10;
+  if (correctNumbers.length === 3 && extraCorrect) win = 2;
 
-  if (plusCorrect && correctNumbers.length <= 3 && !extraCorrect) return 5;
+  if (plusCorrect && correctNumbers.length === 1) return 5;
+  if (plusCorrect && correctNumbers.length !== 7) return win * 5;
 
-  if (plusCorrect && correctNumbers.length != 7) {
-    return matchingCategory ? matchingCategory.prize * 5 : 0;
-  } else {
-    return matchingCategory ? matchingCategory.prize : 0;
-  }
+  return win;
 };
