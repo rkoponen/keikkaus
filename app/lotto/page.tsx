@@ -5,19 +5,15 @@ import React, { useRef, useState } from "react";
 import { BsTrash3Fill, BsPCircle } from "react-icons/bs";
 import { selectPlusNumber } from "../utils/lotto-utils";
 import ResultList from "@/components/result-list";
-import { start } from "repl";
 import { ButtonTooltip } from "@/components/button-tooltip";
 import ChosenNumbers from "@/components/chosen-numbers";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { sortNumbers } from "../utils/number-utils";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
 });
-
-const sortNumbers = (numbers: number[], newNumber: number) => {
-  return [...numbers, newNumber].sort((a, b) => a - b);
-};
 
 export type PlayerNumbers = {
   numbers: number[];
@@ -207,7 +203,7 @@ const LottoPage = () => {
           <ButtonTooltip
             button={
               <Button
-                className="w-full"
+                className="w-full mt-4"
                 onClick={handleClickSimulation}
                 disabled={rows.length === 0}
               >
