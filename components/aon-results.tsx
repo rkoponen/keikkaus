@@ -16,27 +16,35 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { Button } from "./ui/button";
 import { PlayerNumbers } from "@/app/lotto/page";
 import ResultSummary from "./result-summary";
+import {
+  AonNumbers,
+  AonResult,
+  checkAonResult,
+  selectAonNumbers,
+} from "@/app/utils/aon-utils";
+import SingleAonResult from "./single-aon-result";
 
-interface ResultListProps {
+interface AonResultsProps {
   key: number;
   years: number;
-  rows: PlayerNumbers[];
+  rows: AonNumbers[];
   onSimulationDone: () => void;
   startSimulation: boolean;
+  betSize: number;
 }
 
-export type BestResult = {
-  result: Result;
+export type BestAonResult = {
+  result: AonResult;
   index: number;
 };
 
-const ResultList = (props: ResultListProps) => {
+const AonResults = (props: AonResultsProps) => {
   const weeks = props.years * 52;
   const [resultList, setResultList] = useState<React.JSX.Element[]>([]);
   const [week, setWeek] = useState<number>(1);
   const [wins, setWins] = useState<number>(0);
   const [moneyUsed, setMoneyUsed] = useState<number>(0);
-  const [bestResult, setBestResult] = useState<BestResult | null>(null);
+  const [bestResult, setBestResult] = useState<BestAonResult | null>(null);
 
   const listRef = useRef<List>(null);
 
@@ -53,12 +61,14 @@ const ResultList = (props: ResultListProps) => {
           const renderSpeed =
             props.years > 20 ? Math.round(props.years / 10) + 3 : 1;
           for (let i = week; i < week + renderSpeed && i <= weeks; i++) {
-            const lotteryResult = selectLotteryNumbers();
+            const lotteryResult: AonNumbers = selectAonNumbers();
 
-            const playerResults: Result[] = props.rows.map((row) => {
-              const result = checkResult(row, lotteryResult);
+            const playerResults: AonResult[] = props.rows.map((row) => {
+              const result = checkAonResult(row, lotteryResult, props.betSize);
               newWins += result.winAmount;
-              row.plusNumber ? (newMoneyUsed += 1.5) : (newMoneyUsed += 1);
+              row.luckyClover
+                ? (newMoneyUsed += props.betSize * 2)
+                : (newMoneyUsed += props.betSize);
 
               if (
                 !newBestResult ||
@@ -73,8 +83,8 @@ const ResultList = (props: ResultListProps) => {
               return result;
             });
             newItems.push(
-              <SingleResult
-                lotteryResult={lotteryResult}
+              <SingleAonResult
+                aonNumbers={lotteryResult}
                 playerResults={playerResults}
                 rows={props.rows}
                 week={i}
@@ -170,4 +180,4 @@ const ResultList = (props: ResultListProps) => {
   );
 };
 
-export default ResultList;
+export default AonResults;

@@ -1,13 +1,20 @@
 import React from "react";
 import { BestResult } from "./result-list";
 import { Button } from "./ui/button";
+import { BestAonResult } from "./aon-results";
 
 interface ResultSummaryProps {
   wins: number;
   moneyUsed: number;
-  bestResult: BestResult;
+  bestResult: BestResult | BestAonResult;
   handleClick: () => void;
 }
+
+const isBestResult = (
+  result: BestResult | BestAonResult
+): result is BestResult => {
+  return (result as BestResult).result !== undefined;
+};
 
 const ResultSummary = (props: ResultSummaryProps) => {
   return (
@@ -36,7 +43,11 @@ const ResultSummary = (props: ResultSummaryProps) => {
         <p className="">Paras tulos</p>
         <p className="text-lg">
           {props.bestResult?.result.correctNumbers.length}
-          {props.bestResult?.result.extraCorrect ? " + 1" : ""} oikein
+          {isBestResult(props.bestResult) &&
+          props.bestResult.result.extraCorrect
+            ? " + 1"
+            : ""}{" "}
+          oikein
         </p>
         <p className="text-lg">
           Voitto:{" "}

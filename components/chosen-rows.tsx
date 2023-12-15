@@ -1,7 +1,9 @@
+import { AonNumbers } from "@/app/utils/aon-utils";
 import { BsTrash3Fill } from "react-icons/bs";
+import { LuClover } from "react-icons/lu";
 
 interface ChosenRowsProps {
-  rows: number[][];
+  rows: AonNumbers[];
   handleClickDelete: (index: number) => void;
 }
 
@@ -17,7 +19,7 @@ const ChosenRows = (props: ChosenRowsProps) => {
               className="flex flex-row gap-1 mt-2 p-2 border rounded-xl justify-between items-center text-center w-full"
             >
               <div className="grid grid-cols-6 grid-rows-2 gap-2 space-between sm:grid-cols-12 sm:grid-rows-1 w-9/12 sm:w-10/12 sm:mr-2">
-                {row.map((number, innerIndex) => (
+                {row.numbers.map((number, innerIndex) => (
                   <div
                     key={innerIndex}
                     className="flex items-center justify-center border rounded-full p-1 w-8 h-8 sm:w-10 sm:h-10 text-sm"
@@ -26,6 +28,14 @@ const ChosenRows = (props: ChosenRowsProps) => {
                     {number}
                   </div>
                 ))}
+              </div>
+              <div>
+                {row.luckyClover && (
+                  <div>
+                    <LuClover />
+                    {row.luckyClover}
+                  </div>
+                )}
               </div>
 
               <button

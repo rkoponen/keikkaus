@@ -16,7 +16,7 @@ const ChosenNumbers = (props: ChosenNumbersProps) => {
             return (
               <span
                 key={x}
-                className="border border-cyan-200 rounded-full w-6 h-6 sm:w-8 sm:h-8 p-1"
+                className="border border-cyan-200 rounded-full w-6 h-6 sm:w-10 sm:h-10 p-1"
               >
                 <div className="h-full flex  items-center justify-center">
                   {props.selectedNumbers[x] ? props.selectedNumbers[x] : ""}
