@@ -1,3 +1,4 @@
+import { AonNumbers, AonResult } from "../../types/aon-types";
 import { selectNumbersFromRange } from "./number-utils";
 
 const numbers = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -11,17 +12,6 @@ export const selectAonNumbers = () => {
     numbers: selectedNumbers.sort((a, b) => a - b),
     luckyClover: luckyClover,
   };
-};
-
-export type AonNumbers = {
-  numbers: number[];
-  luckyClover?: number;
-};
-
-export type AonResult = {
-  correctNumbers: number[];
-  cloverCorrect: boolean;
-  winAmount: number;
 };
 
 export const checkAonResult = (

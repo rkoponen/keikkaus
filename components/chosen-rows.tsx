@@ -1,4 +1,4 @@
-import { AonNumbers } from "@/app/utils/aon-utils";
+import { AonNumbers } from "@/types/aon-types";
 import { BsTrash3Fill } from "react-icons/bs";
 import { LuClover } from "react-icons/lu";
 

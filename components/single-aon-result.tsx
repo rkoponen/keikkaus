@@ -1,14 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { BsPCircleFill, BsPlusLg } from "react-icons/bs";
-import {
-  Result,
-  calculateWinAmount,
-  checkResult,
-  selectLotteryNumbers,
-} from "@/app/utils/lotto-utils";
-import { Rowdies } from "next/font/google";
-import { PlayerNumbers } from "@/app/lotto/page";
-import { AonNumbers, AonResult } from "@/app/utils/aon-utils";
+import { AonNumbers, AonResult } from "@/types/aon-types";
+import React from "react";
+
 import { LuClover } from "react-icons/lu";
 
 interface LotteryNumberProps {
@@ -72,15 +64,17 @@ const SingleAonResult: React.FC<SingleAonResultProps> = (props) => {
                   );
                 })}
                 {row.luckyClover && (
-                  <div
-                    className={`flex items-center justify-center border border-purple-500 rounded-full w-8 h-8 ${
-                      props.playerResults[rowIndex].cloverCorrect
-                        ? "bg-green-200"
-                        : "bg-none"
-                    }`}
-                  >
+                  <div className="flex flex-row items-center gap-2">
                     <LuClover />
-                    {row.luckyClover}
+                    <div
+                      className={`flex items-center justify-center border border-green-500 rounded-full w-8 h-8 ${
+                        props.playerResults[rowIndex].cloverCorrect
+                          ? "bg-green-200"
+                          : "bg-none"
+                      }`}
+                    >
+                      {row.luckyClover}
+                    </div>
                   </div>
                 )}
               </div>

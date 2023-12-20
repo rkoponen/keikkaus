@@ -10,15 +10,13 @@ import ChosenNumbers from "@/components/chosen-numbers";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { sortNumbers } from "../utils/number-utils";
+import { PlayerNumbers } from "@/types/lotto-types";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
 });
 
-export type PlayerNumbers = {
-  numbers: number[];
-  plusNumber?: number;
-};
+
 
 const LottoPage = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);

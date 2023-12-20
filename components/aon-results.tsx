@@ -1,28 +1,14 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
-import SingleResult from "./single-result";
-import {
-  LotteryResult,
-  Result,
-  calculateWinAmount,
-  checkResult,
-  selectLotteryNumbers,
-} from "@/app/utils/lotto-utils";
-import { BsPlusLg } from "react-icons/bs";
-import { setTimeout } from "timers";
-import { render } from "@testing-library/react";
+import React, { useEffect, useRef, useState } from "react";
 import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Button } from "./ui/button";
-import { PlayerNumbers } from "@/app/lotto/page";
 import ResultSummary from "./result-summary";
 import {
-  AonNumbers,
-  AonResult,
   checkAonResult,
   selectAonNumbers,
 } from "@/app/utils/aon-utils";
 import SingleAonResult from "./single-aon-result";
+import { AonNumbers, AonResult, BestAonResult } from "@/types/aon-types";
 
 interface AonResultsProps {
   key: number;
@@ -33,10 +19,6 @@ interface AonResultsProps {
   betSize: number;
 }
 
-export type BestAonResult = {
-  result: AonResult;
-  index: number;
-};
 
 const AonResults = (props: AonResultsProps) => {
   const weeks = props.years * 52;

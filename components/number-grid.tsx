@@ -1,10 +1,6 @@
 "use client";
-import { sortNumbers } from "@/app/utils/number-utils";
 import React, { useState } from "react";
 
-type AoNNumbers = {
-  numbers: number[];
-};
 
 interface NumberGridProps {
   length: number;

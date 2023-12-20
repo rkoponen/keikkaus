@@ -1,21 +1,14 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SingleResult from "./single-result";
 import {
-  LotteryResult,
-  Result,
-  calculateWinAmount,
   checkResult,
   selectLotteryNumbers,
 } from "@/app/utils/lotto-utils";
-import { BsPlusLg } from "react-icons/bs";
-import { setTimeout } from "timers";
-import { render } from "@testing-library/react";
 import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Button } from "./ui/button";
-import { PlayerNumbers } from "@/app/lotto/page";
 import ResultSummary from "./result-summary";
+import { BestResult, PlayerNumbers, Result } from "@/types/lotto-types";
 
 interface ResultListProps {
   key: number;
@@ -25,10 +18,6 @@ interface ResultListProps {
   startSimulation: boolean;
 }
 
-export type BestResult = {
-  result: Result;
-  index: number;
-};
 
 const ResultList = (props: ResultListProps) => {
   const weeks = props.years * 52;

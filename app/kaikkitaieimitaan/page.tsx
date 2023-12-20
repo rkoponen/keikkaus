@@ -2,21 +2,17 @@
 import NumberGrid from "@/components/number-grid";
 import ChosenNumbers from "@/components/chosen-numbers";
 import { useState } from "react";
-import { selectNumbersFromRange, sortNumbers } from "../utils/number-utils";
+import { sortNumbers } from "../utils/number-utils";
 import ChosenRows from "@/components/chosen-rows";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import {
-  AonNumbers,
-  calculateAonWinAmount,
-  selectClover,
-} from "../utils/aon-utils";
-import { Changa } from "next/font/google";
+import { selectClover } from "../utils/aon-utils";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { LuClover } from "react-icons/lu";
 import { ButtonTooltip } from "@/components/button-tooltip";
 import AonResults from "@/components/aon-results";
+import { AonNumbers } from "../../types/aon-types";
 
 const AoNPage = () => {
   const [rows, setRows] = useState<AonNumbers[]>([]);
@@ -86,7 +82,6 @@ const AoNPage = () => {
       });
       setRows(newRows);
     }
-    
   };
 
   const handleSimulationDone = () => {
