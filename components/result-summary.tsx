@@ -1,7 +1,7 @@
 import React from "react";
-import { BestResult } from "./result-list";
 import { Button } from "./ui/button";
-import { BestAonResult } from "./aon-results";
+import { BestAonResult } from "@/types/aon-types";
+import { BestResult } from "@/types/lotto-types";
 
 interface ResultSummaryProps {
   wins: number;

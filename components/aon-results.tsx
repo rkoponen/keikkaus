@@ -133,8 +133,8 @@ const AonResults = (props: AonResultsProps) => {
     <div className="flex flex-col h-screen">
       <div
         className={`flex w-full ${
-          props.rows.length < 4 ? "h-1/3" : "h-1/2"
-        } my-6 border rounded-lg p-1`}
+          props.rows.length < 4 ? "h-3/4 sm:h-1/3" : "h-1/2"
+        } my-2 sm:my-6 border rounded-lg p-1`}
       >
         <AutoSizer>
           {({ height, width }) => (

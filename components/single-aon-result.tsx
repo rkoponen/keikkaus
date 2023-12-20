@@ -24,17 +24,21 @@ interface SingleAonResultProps {
 
 const SingleAonResult: React.FC<SingleAonResultProps> = (props) => {
   return (
-    <div key={props.week} className="w-full bg-white py-2">
+    <div key={props.week} className="w-full py-2">
       <div className="flex flex-col">
         <span> Arvonta: {props.week}.</span>
         <span>Oikea rivi</span>
         <div className="flex flex-row border p-2 gap-1 justify-between items-center rounded-lg my-2">
-          {props.aonNumbers.numbers.map((number, index) => (
-            <LotteryNumber key={index} number={number} />
-          ))}
-          <LuClover className="text-xl" />
-          <div className="border rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center bg-slate-100 border-green-400">
-            {props.aonNumbers.luckyClover}
+          <div className="grid grid-cols-6 gap-1 sm:flex sm:flex-row">
+            {props.aonNumbers.numbers.map((number, index) => (
+              <LotteryNumber key={index} number={number} />
+            ))}
+          </div>
+          <div className="flex flex-row gap-1 items-center">
+            <LuClover className="text-xl" />
+            <div className="border rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center bg-slate-100 border-green-400">
+              {props.aonNumbers.luckyClover}
+            </div>
           </div>
         </div>
         <span>Rivisi</span>
@@ -43,29 +47,31 @@ const SingleAonResult: React.FC<SingleAonResultProps> = (props) => {
           const win = winAmount > 0;
           return (
             <div
-              className="border p-2 rounded-xl mb-2 flex flex-col sm:flex-row gap-2 sm:gap-6"
+              className="border p-2 rounded-xl mb-2 flex flex-col md:flex-row gap-2 sm:gap-6"
               key={rowIndex}
             >
               <div className="flex flew-row justify-between items-center gap-2">
-                {row.numbers.map((number, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className={`flex items-center justify-center border rounded-full text-center w-8 h-8 ${
-                        props.playerResults[rowIndex].correctNumbers.includes(
-                          number
-                        )
-                          ? "bg-green-200"
-                          : "bg-slate-100"
-                      }`}
-                    >
-                      {number}
-                    </div>
-                  );
-                })}
+                <div className="grid grid-cols-6 gap-2 sm:flex sm:flex-row">
+                  {row.numbers.map((number, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`flex items-center justify-center border rounded-full text-center w-8 h-8 ${
+                          props.playerResults[rowIndex].correctNumbers.includes(
+                            number
+                          )
+                            ? "bg-green-200"
+                            : "bg-slate-100"
+                        }`}
+                      >
+                        {number}
+                      </div>
+                    );
+                  })}
+                </div>
                 {row.luckyClover && (
                   <div className="flex flex-row items-center gap-2">
-                    <LuClover />
+                    <LuClover className="text-xl"/>
                     <div
                       className={`flex items-center justify-center border border-green-500 rounded-full w-8 h-8 ${
                         props.playerResults[rowIndex].cloverCorrect
