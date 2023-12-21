@@ -1,18 +1,6 @@
-import { PlayerNumbers } from "../lotto/page";
+import { LotteryResult, PlayerNumbers, Result } from "@/types/lotto-types";
 import prizeData from "../prizeData.json";
 
-export type LotteryResult = {
-  numbers: number[];
-  extraNumber: number;
-  plusNumber: number;
-};
-
-export type Result = {
-  correctNumbers: number[];
-  extraCorrect: boolean;
-  plusCorrect?: boolean;
-  winAmount: number;
-};
 
 enum PrizeCategories {
   Seven = "7 oikein",

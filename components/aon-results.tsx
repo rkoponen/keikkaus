@@ -1,27 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
-import SingleResult from "./single-result";
-import { checkResult, selectLotteryNumbers } from "@/app/utils/lotto-utils";
 import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ResultSummary from "./result-summary";
-import { BestResult, PlayerNumbers, Result } from "@/types/lotto-types";
+import { checkAonResult, selectAonNumbers } from "@/app/utils/aon-utils";
+import SingleAonResult from "./single-aon-result";
+import { AonNumbers, AonResult, BestAonResult } from "@/types/aon-types";
 
-interface ResultListProps {
+interface AonResultsProps {
   key: number;
   years: number;
-  rows: PlayerNumbers[];
+  rows: AonNumbers[];
   onSimulationDone: () => void;
   startSimulation: boolean;
+  betSize: number;
 }
 
-const ResultList = (props: ResultListProps) => {
+const AonResults = (props: AonResultsProps) => {
   const weeks = props.years * 52;
   const [resultList, setResultList] = useState<React.JSX.Element[]>([]);
   const [week, setWeek] = useState<number>(1);
   const [wins, setWins] = useState<number>(0);
   const [moneyUsed, setMoneyUsed] = useState<number>(0);
-  const [bestResult, setBestResult] = useState<BestResult | null>(null);
+  const [bestResult, setBestResult] = useState<BestAonResult | null>(null);
 
   const listRef = useRef<List>(null);
 
@@ -38,12 +39,14 @@ const ResultList = (props: ResultListProps) => {
           const renderSpeed =
             props.years > 20 ? Math.round(props.years / 10) + 3 : 1;
           for (let i = week; i < week + renderSpeed && i <= weeks; i++) {
-            const lotteryResult = selectLotteryNumbers();
+            const lotteryResult: AonNumbers = selectAonNumbers();
 
-            const playerResults: Result[] = props.rows.map((row) => {
-              const result = checkResult(row, lotteryResult);
+            const playerResults: AonResult[] = props.rows.map((row) => {
+              const result = checkAonResult(row, lotteryResult, props.betSize);
               newWins += result.winAmount;
-              row.plusNumber ? (newMoneyUsed += 1.5) : (newMoneyUsed += 1);
+              row.luckyClover
+                ? (newMoneyUsed += props.betSize * 2)
+                : (newMoneyUsed += props.betSize);
 
               if (
                 !newBestResult ||
@@ -58,8 +61,8 @@ const ResultList = (props: ResultListProps) => {
               return result;
             });
             newItems.push(
-              <SingleResult
-                lotteryResult={lotteryResult}
+              <SingleAonResult
+                aonNumbers={lotteryResult}
                 playerResults={playerResults}
                 rows={props.rows}
                 week={i}
@@ -126,8 +129,8 @@ const ResultList = (props: ResultListProps) => {
     <div className="flex h-screen flex-col">
       <div
         className={`flex w-full ${
-          props.rows.length < 4 ? "h-1/3 sm:h-1/2" : "h-1/2"
-        } my-6 rounded-lg border p-1`}
+          props.rows.length < 4 ? "h-3/4 sm:h-1/3" : "h-1/2"
+        } my-2 rounded-lg border p-1 sm:my-6`}
       >
         <AutoSizer>
           {({ height, width }) => (
@@ -155,4 +158,4 @@ const ResultList = (props: ResultListProps) => {
   );
 };
 
-export default ResultList;
+export default AonResults;

@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BsPCircleFill, BsPlusLg } from "react-icons/bs";
-import {
-  LotteryResult,
-  Result,
-  calculateWinAmount,
-  checkResult,
-  selectLotteryNumbers,
-} from "@/app/utils/lotto-utils";
+
 import { Rowdies } from "next/font/google";
-import { PlayerNumbers } from "@/app/lotto/page";
+import { LotteryResult, PlayerNumbers, Result } from "@/types/lotto-types";
 
 interface LotteryNumberProps {
   number: number;
@@ -16,7 +10,7 @@ interface LotteryNumberProps {
 
 const LotteryNumber: React.FC<LotteryNumberProps> = ({ number }) => {
   return (
-    <div className="border rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-green-200">
+    <div className="flex h-8 w-8 items-center justify-center rounded-full border bg-green-200 md:h-10 md:w-10">
       {number}
     </div>
   );
@@ -35,16 +29,16 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
       <div className="flex flex-col">
         <span> Arvonta: {props.week}.</span>
         <span>Oikea rivi</span>
-        <div className="flex flex-row border p-2 gap-1 justify-between items-center rounded-lg my-2">
+        <div className="my-2 flex flex-row items-center justify-between gap-1 rounded-lg border p-2">
           {props.lotteryResult.numbers.map((number, index) => (
             <LotteryNumber key={index} number={number} />
           ))}
           <BsPlusLg className="text-xl" />
-          <div className="border rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center bg-slate-100 border-green-400">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-400 bg-slate-100 sm:h-10 sm:w-10">
             {props.lotteryResult.extraNumber}
           </div>
           <BsPCircleFill />
-          <div className="border rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center border-purple-500">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500 sm:h-10 sm:w-10">
             {props.lotteryResult.plusNumber}
           </div>
         </div>
@@ -54,17 +48,17 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
           const win = winAmount > 0;
           return (
             <div
-              className="border p-2 rounded-xl mb-2 flex flex-col sm:flex-row gap-2 sm:gap-6"
+              className="mb-2 flex flex-col gap-2 rounded-xl border p-2 sm:flex-row sm:gap-6"
               key={rowIndex}
             >
-              <div className="flex flew-row justify-between items-center gap-2">
+              <div className="flew-row flex items-center justify-between gap-2">
                 {row.numbers.map((number, index) => {
                   return (
                     <div
                       key={index}
-                      className={`flex items-center justify-center border rounded-full text-center w-8 h-8 ${
+                      className={`flex h-8 w-8 items-center justify-center rounded-full border text-center ${
                         props.playerResults[rowIndex].correctNumbers.includes(
-                          number
+                          number,
                         )
                           ? "bg-green-200"
                           : "bg-slate-100"
@@ -80,7 +74,7 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
                 })}
                 {row.plusNumber && (
                   <div
-                    className={`flex items-center justify-center border border-purple-500 rounded-full w-8 h-8 ${
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border border-purple-500 ${
                       props.playerResults[rowIndex].plusCorrect
                         ? "bg-purple-200"
                         : "bg-none"
@@ -90,7 +84,7 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-row justify-between items-center w-full">
+              <div className="flex w-full flex-row items-center justify-between">
                 <span className="">
                   Osumat: {props.playerResults[rowIndex].correctNumbers.length}{" "}
                   {props.playerResults[rowIndex].extraCorrect ? "+ 1" : ""}
@@ -98,7 +92,7 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
                 <span
                   className={`${
                     win ? "bg-green-200" : "bg-red-200"
-                  } p-2 border rounded-lg text-xs`}
+                  } rounded-lg border p-2 text-xs`}
                 >
                   {win ? `Voitto: ${winAmount}€` : "Ei voittoa"}
                 </span>
