@@ -102,16 +102,18 @@ const LottoPage = () => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-2 sm:p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-2">
       <div className="z-10 flex w-full flex-col items-center justify-center gap-6 font-mono text-sm lg:w-7/12">
-        <div>
-          <h1 className="text-xl">Lotto</h1>
+        <div className="rounded-lg border border-black p-2">
+          <h1 className="font-mono text-2xl font-bold italic tracking-widest text-slate-600">
+            Lotto
+          </h1>
         </div>
         <div className="flex w-full flex-col items-center justify-center">
           <h1 className="text-lg">Valitse numerot</h1>
           <div
             ref={numbersDivRef}
-            className="grid w-full grid-cols-8 grid-rows-5 gap-2 rounded-lg sm:grid-cols-10 sm:grid-rows-4"
+            className="grid w-max grid-cols-8 grid-rows-5 gap-2 rounded-lg sm:grid-cols-10 sm:grid-rows-4"
           >
             {lottoNumbers.map((x) => {
               const selected = selectedNumbers.includes(x);
@@ -130,7 +132,6 @@ const LottoPage = () => {
           </div>
         </div>
         <div className="w-full">
-          <h2 className="text-center text-lg">Valitut numerot</h2>
           <ChosenNumbers selectedNumbers={selectedNumbers} length={7} />
         </div>
         <div className="w-full text-center">

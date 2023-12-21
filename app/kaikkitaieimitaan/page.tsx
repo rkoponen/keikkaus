@@ -92,6 +92,11 @@ const AoNPage = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2">
       <div className="z-10 flex w-full flex-col items-center justify-center gap-6 font-mono text-sm lg:w-6/12">
+        <div className="rounded-lg border border-black p-2">
+          <h1 className="font-mono text-2xl font-bold italic tracking-widest text-slate-600">
+            Kaikki tai ei mitään
+          </h1>
+        </div>
         <NumberGrid
           length={length}
           selectableLength={24}

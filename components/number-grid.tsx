@@ -22,7 +22,7 @@ const NumberGrid = (props: NumberGridProps) => {
   return (
     <div className="flex w-full flex-col items-center justify-center">
       <h1 className="text-lg">Valitse numerot</h1>
-      <div className={`grid ${gridCols} w-max gap-2 rounded-lg`}>
+      <div className={`grid ${gridCols} w-full sm:w-max gap-2 rounded-lg`}>
         {numbers.map((x) => {
           const selected = props.selectedNumbers.includes(x);
           return (
