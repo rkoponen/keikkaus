@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BsPCircleFill, BsPlusLg } from "react-icons/bs";
-import {
-  LotteryResult,
-  Result,
-  calculateWinAmount,
-  checkResult,
-  selectLotteryNumbers,
-} from "@/app/utils/lotto-utils";
+
 import { Rowdies } from "next/font/google";
-import { PlayerNumbers } from "@/app/lotto/page";
+import { LotteryResult, PlayerNumbers, Result } from "@/types/lotto-types";
 
 interface LotteryNumberProps {
   number: number;
