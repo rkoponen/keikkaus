@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex items-center justify-center my-6">
+        <div className="my-6 flex items-center justify-center">
           <Link href="/">
             <div>
               <Image src={logo} alt="keikkaus" className="w-56" />

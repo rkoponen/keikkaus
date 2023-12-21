@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 
-
 interface NumberGridProps {
   length: number;
   selectableLength: number;
@@ -21,9 +20,9 @@ const NumberGrid = (props: NumberGridProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex w-full flex-col items-center justify-center">
       <h1 className="text-lg">Valitse numerot</h1>
-      <div className={`grid ${gridCols} gap-2 rounded-lg w-max`}>
+      <div className={`grid ${gridCols} w-max gap-2 rounded-lg`}>
         {numbers.map((x) => {
           const selected = props.selectedNumbers.includes(x);
           return (
@@ -32,7 +31,7 @@ const NumberGrid = (props: NumberGridProps) => {
               onClick={() => {
                 props.handleNumberClick(x);
               }}
-              className={`bg-cyan-600 hover:border hover:border-cyan-400 rounded-full flex justify-center text-sm h-10 sm:h-12 w-10 sm:w-12 items-center text-slate-100 cursor-pointer ${
+              className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-cyan-600 text-sm text-slate-100 hover:border hover:border-cyan-400 sm:h-12 sm:w-12 ${
                 selected ? "bg-green-500" : ""
               }`}
             >

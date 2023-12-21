@@ -91,7 +91,7 @@ const AoNPage = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2">
-      <div className="z-10 flex flex-col gap-6 w-full lg:w-6/12 items-center justify-center font-mono text-sm">
+      <div className="z-10 flex w-full flex-col items-center justify-center gap-6 font-mono text-sm lg:w-6/12">
         <NumberGrid
           length={length}
           selectableLength={24}
@@ -100,11 +100,11 @@ const AoNPage = () => {
         />
         <ChosenNumbers selectedNumbers={selectedNumbers} length={length} />
         <ChosenRows rows={rows} handleClickDelete={handleClickDelete} />
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center">
           <span>Aseta panos</span>
-          <div className="flex flex-row justify-between items-center gap-4">
+          <div className="flex flex-row items-center justify-between gap-4">
             <Button
-              className="flex items-center justify-center p-1 text-xl w-8 h-8"
+              className="flex h-8 w-8 items-center justify-center p-1 text-xl"
               onClick={() => handleClickBetsize(-0.5)}
               disabled={betSize === 1}
             >
@@ -117,7 +117,7 @@ const AoNPage = () => {
               })}
             </span>
             <Button
-              className="flex items-center justify-center p-1 text-xl w-8 h-8"
+              className="flex h-8 w-8 items-center justify-center p-1 text-xl"
               onClick={() => handleClickBetsize(0.5)}
               disabled={betSize === 5}
             >
@@ -139,10 +139,10 @@ const AoNPage = () => {
               id="lucky-clover-switch"
               onCheckedChange={handleSwitchChange}
             />
-            <LuClover className="w-6 h-6" />
+            <LuClover className="h-6 w-6" />
           </div>
         )}
-        <div className="text-center w-full">
+        <div className="w-full text-center">
           <label className="" htmlFor="slider">
             Kuinka monta vuotta haluat simuloida?
           </label>
@@ -157,11 +157,11 @@ const AoNPage = () => {
           />
           <span className="text-lg font-medium">{years} vuotta</span>
         </div>
-        <div className="w-full h-screen">
+        <div className="h-screen w-full">
           <ButtonTooltip
             button={
               <Button
-                className="w-full mt-4"
+                className="mt-4 w-full"
                 onClick={handleClickSimulation}
                 disabled={rows.length === 0}
               >

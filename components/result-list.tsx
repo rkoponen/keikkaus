@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import SingleResult from "./single-result";
-import {
-  checkResult,
-  selectLotteryNumbers,
-} from "@/app/utils/lotto-utils";
+import { checkResult, selectLotteryNumbers } from "@/app/utils/lotto-utils";
 import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -17,7 +14,6 @@ interface ResultListProps {
   onSimulationDone: () => void;
   startSimulation: boolean;
 }
-
 
 const ResultList = (props: ResultListProps) => {
   const weeks = props.years * 52;
@@ -68,7 +64,7 @@ const ResultList = (props: ResultListProps) => {
                 rows={props.rows}
                 week={i}
                 key={i}
-              />
+              />,
             );
           }
           setWeek(week + renderSpeed);
@@ -127,11 +123,11 @@ const ResultList = (props: ResultListProps) => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex h-screen flex-col">
       <div
         className={`flex w-full ${
           props.rows.length < 4 ? "h-1/3 sm:h-1/2" : "h-1/2"
-        } my-6 border rounded-lg p-1`}
+        } my-6 rounded-lg border p-1`}
       >
         <AutoSizer>
           {({ height, width }) => (

@@ -9,20 +9,20 @@ interface ChosenRowsProps {
 
 const ChosenRows = (props: ChosenRowsProps) => {
   return (
-    <div className="text-center w-full">
-      <h2 className="text-lg text-center">Valitut rivit</h2>
+    <div className="w-full text-center">
+      <h2 className="text-center text-lg">Valitut rivit</h2>
       {props.rows.length > 0 ? (
         <div className="flex flex-row flex-wrap">
           {props.rows.map((row, index) => (
             <div
               key={index}
-              className="flex flex-row gap-1 mt-2 p-2 border rounded-xl justify-between items-center text-center w-full"
+              className="mt-2 flex w-full flex-row items-center justify-between gap-1 rounded-xl border p-2 text-center"
             >
-              <div className="grid grid-cols-6 grid-rows-2 gap-2 space-between sm:grid-cols-12 sm:grid-rows-1 w-9/12 sm:w-10/12 sm:mr-2">
+              <div className="space-between grid w-9/12 grid-cols-6 grid-rows-2 gap-2 sm:mr-2 sm:w-10/12 sm:grid-cols-12 sm:grid-rows-1">
                 {row.numbers.map((number, innerIndex) => (
                   <div
                     key={innerIndex}
-                    className="flex items-center justify-center border rounded-full p-1 w-8 h-8 sm:w-10 sm:h-10 text-sm"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border p-1 text-sm sm:h-10 sm:w-10"
                     data-testid="selected-number"
                   >
                     {number}
@@ -39,7 +39,7 @@ const ChosenRows = (props: ChosenRowsProps) => {
               </div>
 
               <button
-                className="flex grow sm:grow bg-red-500 text-white h-8 sm:h-10 rounded-full justify-center items-center"
+                className="flex h-8 grow items-center justify-center rounded-full bg-red-500 text-white sm:h-10 sm:grow"
                 onClick={() => props.handleClickDelete(index)}
                 data-testid="delete"
               >

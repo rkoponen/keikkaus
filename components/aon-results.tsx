@@ -3,10 +3,7 @@ import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ResultSummary from "./result-summary";
-import {
-  checkAonResult,
-  selectAonNumbers,
-} from "@/app/utils/aon-utils";
+import { checkAonResult, selectAonNumbers } from "@/app/utils/aon-utils";
 import SingleAonResult from "./single-aon-result";
 import { AonNumbers, AonResult, BestAonResult } from "@/types/aon-types";
 
@@ -18,7 +15,6 @@ interface AonResultsProps {
   startSimulation: boolean;
   betSize: number;
 }
-
 
 const AonResults = (props: AonResultsProps) => {
   const weeks = props.years * 52;
@@ -71,7 +67,7 @@ const AonResults = (props: AonResultsProps) => {
                 rows={props.rows}
                 week={i}
                 key={i}
-              />
+              />,
             );
           }
           setWeek(week + renderSpeed);
@@ -130,11 +126,11 @@ const AonResults = (props: AonResultsProps) => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex h-screen flex-col">
       <div
         className={`flex w-full ${
           props.rows.length < 4 ? "h-3/4 sm:h-1/3" : "h-1/2"
-        } my-2 sm:my-6 border rounded-lg p-1`}
+        } my-2 rounded-lg border p-1 sm:my-6`}
       >
         <AutoSizer>
           {({ height, width }) => (

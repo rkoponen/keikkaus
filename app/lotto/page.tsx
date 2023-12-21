@@ -16,8 +16,6 @@ let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
 });
 
-
-
 const LottoPage = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   const [rows, setRows] = useState<PlayerNumbers[]>([]);
@@ -105,13 +103,15 @@ const LottoPage = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 sm:p-24">
-      <div className="z-10 flex flex-col gap-6 w-full lg:w-7/12 items-center justify-center font-mono text-sm">
-        <h1 className="text-xl">Lotto</h1>
-        <div className="flex flex-col items-center justify-center w-full">
+      <div className="z-10 flex w-full flex-col items-center justify-center gap-6 font-mono text-sm lg:w-7/12">
+        <div>
+          <h1 className="text-xl">Lotto</h1>
+        </div>
+        <div className="flex w-full flex-col items-center justify-center">
           <h1 className="text-lg">Valitse numerot</h1>
           <div
             ref={numbersDivRef}
-            className="grid grid-cols-8 gap-2 grid-rows-5 sm:grid-cols-10 sm:grid-rows-4 rounded-lg w-full"
+            className="grid w-full grid-cols-8 grid-rows-5 gap-2 rounded-lg sm:grid-cols-10 sm:grid-rows-4"
           >
             {lottoNumbers.map((x) => {
               const selected = selectedNumbers.includes(x);
@@ -119,7 +119,7 @@ const LottoPage = () => {
                 <div
                   key={x}
                   onClick={() => handleClick(x)}
-                  className={`bg-cyan-600 hover:border hover:border-cyan-400 rounded-full flex justify-center text-sm h-10 sm:h-12 w-10 sm:w-12 items-center text-slate-100 cursor-pointer ${
+                  className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-cyan-600 text-sm text-slate-100 hover:border hover:border-cyan-400 sm:h-12 sm:w-12 ${
                     selected ? "bg-green-500" : ""
                   }`}
                 >
@@ -130,22 +130,22 @@ const LottoPage = () => {
           </div>
         </div>
         <div className="w-full">
-          <h2 className="text-lg text-center">Valitut numerot</h2>
+          <h2 className="text-center text-lg">Valitut numerot</h2>
           <ChosenNumbers selectedNumbers={selectedNumbers} length={7} />
         </div>
         <div className="w-full text-center">
-          <h2 className="text-lg text-center">Valitut rivit</h2>
+          <h2 className="text-center text-lg">Valitut rivit</h2>
           {rows.length > 0 ? (
             <div className="w-full">
               {rows.map((row, index) => (
                 <div
                   key={index}
-                  className="flex flex-row gap-1 mt-2 p-2 border rounded-xl justify-between items-center text-center w-full"
+                  className="mt-2 flex w-full flex-row items-center justify-between gap-1 rounded-xl border p-2 text-center"
                 >
                   {row.numbers.map((number, innerIndex) => (
                     <div
                       key={innerIndex}
-                      className="flex items-center justify-center border rounded-full p-1 w-8 h-8 sm:w-10 sm:h-10 text-sm"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border p-1 text-sm sm:h-10 sm:w-10"
                       data-testid="selected-number"
                     >
                       {number}
@@ -154,15 +154,15 @@ const LottoPage = () => {
                   {row.plusNumber && (
                     <div className="flex flex-row items-center justify-between gap-2">
                       <div>
-                        <BsPCircle className="w-6 h-6 text-purple-500 rounded-full" />
+                        <BsPCircle className="h-6 w-6 rounded-full text-purple-500" />
                       </div>
-                      <div className="flex items-center justify-center border-purple-500 border rounded-full p-1 w-8 sm:w-10 h-8 sm:h-10">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500 p-1 sm:h-10 sm:w-10">
                         {row.plusNumber}
                       </div>
                     </div>
                   )}
                   <button
-                    className="bg-red-500 text-white w-8 sm:w-10 h-8 sm:h-10 rounded-full flex justify-center items-center"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white sm:h-10 sm:w-10"
                     onClick={() => handleClickDelete(index)}
                     data-testid="delete"
                   >
@@ -182,7 +182,7 @@ const LottoPage = () => {
           </div>
         )}
 
-        <div className="text-center w-full">
+        <div className="w-full text-center">
           <label className="" htmlFor="slider">
             Kuinka monta vuotta haluat simuloida?
           </label>
@@ -197,11 +197,11 @@ const LottoPage = () => {
           />
           <span className="text-lg font-medium">{years} vuotta</span>
         </div>
-        <div className="w-full h-screen" ref={scrollContainerRef}>
+        <div className="h-screen w-full" ref={scrollContainerRef}>
           <ButtonTooltip
             button={
               <Button
-                className="w-full mt-4"
+                className="mt-4 w-full"
                 onClick={handleClickSimulation}
                 disabled={rows.length === 0}
               >

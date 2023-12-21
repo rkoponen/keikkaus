@@ -11,7 +11,7 @@ interface ResultSummaryProps {
 }
 
 const isBestResult = (
-  result: BestResult | BestAonResult
+  result: BestResult | BestAonResult,
 ): result is BestResult => {
   return (result as BestResult).result !== undefined;
 };
@@ -20,7 +20,7 @@ const ResultSummary = (props: ResultSummaryProps) => {
   return (
     <div>
       <div className="flex flex-row justify-between">
-        <div className="bg-green-200 flex flex-col justify-center items-center p-8 w-1/2 rounded-tl-lg">
+        <div className="flex w-1/2 flex-col items-center justify-center rounded-tl-lg bg-green-200 p-8">
           <p>Voitot</p>
           <p className="text-xl">
             {props.wins.toLocaleString("fi-FI", {
@@ -29,7 +29,7 @@ const ResultSummary = (props: ResultSummaryProps) => {
             })}
           </p>
         </div>
-        <div className="bg-red-200 flex flex-col justify-center items-center p-8 w-1/2 rounded-tr-lg">
+        <div className="flex w-1/2 flex-col items-center justify-center rounded-tr-lg bg-red-200 p-8">
           <p>Rahaa käytetty</p>
           <p className="text-xl">
             {props.moneyUsed.toLocaleString("fi-FI", {
@@ -39,7 +39,7 @@ const ResultSummary = (props: ResultSummaryProps) => {
           </p>
         </div>
       </div>
-      <div className="w-full bg-cyan-200 flex flex-col justify-center items-center p-8 rounded-b-lg">
+      <div className="flex w-full flex-col items-center justify-center rounded-b-lg bg-cyan-200 p-8">
         <p className="">Paras tulos</p>
         <p className="text-lg">
           {props.bestResult?.result.correctNumbers.length}

@@ -5,20 +5,20 @@ import aon from "../public/aon.svg";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-2 sm:p-12 font-mono">
+    <main className="flex min-h-screen flex-col items-center p-2 font-mono sm:p-12">
       <div>
-        <h1 className="text-xl font-bold tracking-widest mb-10">Pelit</h1>
+        <h1 className="mb-10 text-xl font-bold tracking-widest">Pelit</h1>
       </div>
-      <div className="flex flex-col items-center justify-center sm:grid sm:grid-cols-2 sm:w-max gap-4 sm:gap-10">
+      <div className="flex flex-col items-center justify-center gap-4 sm:grid sm:w-max sm:grid-cols-2 sm:gap-10">
         <div>
           <Link href="/lotto">
-            <div className="sm:w-72 px-2">
+            <div className="px-2 sm:w-72">
               <label htmlFor="lotto" className="text-sm italic">
                 Lotto
               </label>
               <div
                 id="lotto"
-                className="border p-6 rounded-lg border-black bg-emerald-200 hover:cursor-pointer hover:scale-105 hover:shadow-lg transition ease-in-out delay-50"
+                className="delay-50 rounded-lg border border-black bg-emerald-200 p-6 transition ease-in-out hover:cursor-pointer hover:shadow-lg md:hover:scale-105"
               >
                 <Image src={lotto} alt="lotto" />
               </div>
@@ -33,7 +33,7 @@ export default function Home() {
               </label>
               <div
                 id="aon"
-                className="p-6 bg-amber-200 border rounded-lg border-black hover:cursor-pointer hover:scale-105 hover:shadow-lg transition ease-in-out delay-50"
+                className="delay-50 rounded-lg border border-black bg-amber-200 p-6 transition ease-in-out hover:cursor-pointer hover:shadow-lg md:hover:scale-105"
               >
                 <Image src={aon} alt="all or nothing" />
               </div>
