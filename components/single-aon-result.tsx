@@ -36,7 +36,7 @@ const SingleAonResult: React.FC<SingleAonResultProps> = (props) => {
           </div>
           <div className="flex flex-row items-center gap-1">
             <LuClover className="text-xl" />
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-400 bg-slate-100 sm:h-10 sm:w-10">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-400 sm:h-10 sm:w-10">
               {props.aonNumbers.luckyClover}
             </div>
           </div>

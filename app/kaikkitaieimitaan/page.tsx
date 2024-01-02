@@ -1,8 +1,8 @@
 "use client";
 import NumberGrid from "@/components/number-grid";
 import ChosenNumbers from "@/components/chosen-numbers";
-import { useState } from "react";
-import { sortNumbers } from "../utils/number-utils";
+import { useRef, useState } from "react";
+import { selectNumbersFromRange, sortNumbers } from "../utils/number-utils";
 import ChosenRows from "@/components/chosen-rows";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -23,6 +23,8 @@ const AoNPage = () => {
   const [startSimulation, setStartSimulation] = useState(false);
   const [simulationDone, setSimulationDone] = useState(false);
   const [resultKey, setResultKey] = useState<number>(0);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const length = 12;
 
@@ -56,6 +58,13 @@ const AoNPage = () => {
     const started = !startSimulation;
     setStartSimulation(started);
     setResultKey((prev) => prev + 1);
+
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollIntoView({
+        behavior: "instant",
+        block: "start",
+      });
+    }
   };
 
   const handleSliderChange = (value: number[]) => {
@@ -89,6 +98,15 @@ const AoNPage = () => {
     setStartSimulation(false);
   };
 
+  const handleRandomClick = () => {
+    let newRow = selectNumbersFromRange(24, 12);
+    const newNumbers: AonNumbers = {
+      numbers: newRow,
+      luckyClover: cloverSelected ? selectClover() : undefined,
+    };
+    setRows([...rows, newNumbers]);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2">
       <div className="z-10 flex w-full flex-col items-center justify-center gap-6 font-mono text-sm lg:w-6/12">
@@ -104,49 +122,62 @@ const AoNPage = () => {
           selectedNumbers={selectedNumbers}
         />
         <ChosenNumbers selectedNumbers={selectedNumbers} length={length} />
+        <Button onClick={handleRandomClick}>Arvo rivi</Button>
         <ChosenRows rows={rows} handleClickDelete={handleClickDelete} />
-        <div className="flex flex-col items-center justify-center">
-          <span>Aseta panos</span>
-          <div className="flex flex-row items-center justify-between gap-4">
-            <Button
-              className="flex h-8 w-8 items-center justify-center p-1 text-xl"
-              onClick={() => handleClickBetsize(-0.5)}
-              disabled={betSize === 1}
-            >
-              -
-            </Button>
-            <span className="text-lg">
-              {betSize.toLocaleString("fi-FI", {
-                style: "currency",
-                currency: "EUR",
-              })}
-            </span>
-            <Button
-              className="flex h-8 w-8 items-center justify-center p-1 text-xl"
-              onClick={() => handleClickBetsize(0.5)}
-              disabled={betSize === 5}
-            >
-              +
-            </Button>
+        <div className="flex w-full flex-col items-center justify-center gap-8 sm:flex-row">
+          <div className="flex flex-col items-center justify-center">
+            <span>Aseta panos</span>
+            <div className="flex flex-row items-center justify-between gap-4">
+              <Button
+                className="flex h-8 w-8 items-center justify-center p-1 text-xl"
+                onClick={() => handleClickBetsize(-0.5)}
+                disabled={betSize === 1}
+              >
+                -
+              </Button>
+              <span className="text-lg">
+                {betSize.toLocaleString("fi-FI", {
+                  style: "currency",
+                  currency: "EUR",
+                })}
+              </span>
+              <Button
+                className="flex h-8 w-8 items-center justify-center p-1 text-xl"
+                onClick={() => handleClickBetsize(0.5)}
+                disabled={betSize === 5}
+              >
+                +
+              </Button>
+            </div>
           </div>
+          {rows.length > 0 && (
+            <div className="flex flex-col items-center space-x-2 rounded-lg">
+              {/* <Label htmlFor="lucky-clover-switch">
+                Onnenapila?{" "}
+                {betSize.toLocaleString("fi-FI", {
+                  style: "currency",
+                  currency: "EUR",
+                })}
+                /rivi.
+              </Label> */}
+              <span>
+                Onnenapila?{" "}
+                {betSize.toLocaleString("fi-FI", {
+                  style: "currency",
+                  currency: "EUR",
+                })}
+                /rivi.
+              </span>
+              <div className="flex h-8 flex-row items-center gap-4">
+                <Switch
+                  id="lucky-clover-switch"
+                  onCheckedChange={handleSwitchChange}
+                />
+                <LuClover className="h-6 w-6" />
+              </div>
+            </div>
+          )}
         </div>
-        {rows.length > 0 && (
-          <div className="flex items-center space-x-2">
-            <Label htmlFor="lucky-clover-switch">
-              Onnenapila?{" "}
-              {betSize.toLocaleString("fi-FI", {
-                style: "currency",
-                currency: "EUR",
-              })}
-              /rivi.
-            </Label>
-            <Switch
-              id="lucky-clover-switch"
-              onCheckedChange={handleSwitchChange}
-            />
-            <LuClover className="h-6 w-6" />
-          </div>
-        )}
         <div className="w-full text-center">
           <label className="" htmlFor="slider">
             Kuinka monta vuotta haluat simuloida?
@@ -162,7 +193,7 @@ const AoNPage = () => {
           />
           <span className="text-lg font-medium">{years} vuotta</span>
         </div>
-        <div className="h-screen w-full">
+        <div className="h-screen w-full" ref={scrollContainerRef}>
           <ButtonTooltip
             button={
               <Button
