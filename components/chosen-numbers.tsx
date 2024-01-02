@@ -7,7 +7,7 @@ interface ChosenNumbersProps {
 
 const ChosenNumbers = (props: ChosenNumbersProps) => {
   return (
-    <div className="flex flex-col items-center justify-center text-center">
+    <div className="flex flex-col items-center justify-center text-center w-full">
       <h2 className="text-lg">Valitut numerot</h2>
       <div className="flex w-full flex-col items-center justify-center rounded-xl border border-cyan-600 p-2 sm:w-max">
         <div className={`flex w-full justify-between gap-1 sm:gap-2`}>

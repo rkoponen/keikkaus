@@ -12,7 +12,7 @@ const ChosenRows = (props: ChosenRowsProps) => {
     <div className="flex w-full flex-col items-center text-center">
       <h2 className="text-center text-lg">Valitut rivit</h2>
       {props.rows.length > 0 ? (
-        <div className="flex w-full flex-row flex-wrap items-center justify-center sm:w-max">
+        <div className="flex w-full flex-col flex-wrap items-center justify-center sm:w-max">
           {props.rows.map((row, index) => (
             <div
               key={index}
