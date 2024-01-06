@@ -2,8 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import lotto from "../public/lotto.svg";
 import aon from "../public/aon.svg";
+import Scoreslist from "@/components/highscores";
+import clientPromise from "@/lib/mongodb";
+import { Highscore } from "@/types/highscore";
+import { getScores } from "@/lib/db-utils";
 
-export default function Home() {
+export default async function Home() {
+  const scores = await getScores();
+
   return (
     <main className="flex min-h-screen flex-col items-center p-2 font-mono sm:p-12">
       <div>
@@ -41,6 +47,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
+      <Scoreslist scores={scores} />
     </main>
   );
 }
