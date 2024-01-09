@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { BestAonResult } from "@/types/aon-types";
 import { BestResult } from "@/types/lotto-types";
+import { Games } from "@/types/games-enum";
+import { addScore } from "@/lib/create-utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Highscore } from "@/types/highscore";
 
 interface ResultSummaryProps {
   wins: number;
   moneyUsed: number;
   bestResult: BestResult | BestAonResult;
+  game: Games;
+  simulationFinished: boolean;
   handleClick: () => void;
 }
 
@@ -17,6 +27,19 @@ const isBestResult = (
 };
 
 const ResultSummary = (props: ResultSummaryProps) => {
+  const [nickname, setNickname] = useState("");
+  const [saved, setSaved] = useState(false);
+
+  const handleClickSave = async () => {
+    setSaved(true);
+    const score: Highscore = {
+      nickname: nickname,
+      score: props.bestResult.result.winAmount,
+      game: props.game,
+    };
+    await addScore(score);
+  };
+
   return (
     <div>
       <div className="flex flex-row justify-between">
@@ -56,7 +79,37 @@ const ResultSummary = (props: ResultSummaryProps) => {
             currency: "EUR",
           })}
         </p>
-        <Button onClick={props.handleClick}>Näytä</Button>
+        {props.simulationFinished && (
+          <div className="mt-2 flex flex-row items-center justify-center gap-6">
+            <Button onClick={props.handleClick}>Näytä</Button>
+            {!saved && (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button>Tallenna tulos</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 bg-slate-100">
+                  <div className="flex flex-col">
+                    <label htmlFor="nickname" className="text-sm">
+                      Nimimerkki
+                    </label>
+                    <input
+                      id="nickname"
+                      className="border-grey rounded-md border p-1"
+                      onChange={(e) => setNickname(e.target.value)}
+                    />
+                    <Button
+                      className="disable:bg-grey mt-4"
+                      disabled={nickname.length < 1}
+                      onClick={handleClickSave}
+                    >
+                      Tallenna
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

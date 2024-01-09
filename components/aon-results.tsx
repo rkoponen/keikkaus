@@ -6,6 +6,7 @@ import ResultSummary from "./result-summary";
 import { checkAonResult, selectAonNumbers } from "@/app/utils/aon-utils";
 import SingleAonResult from "./single-aon-result";
 import { AonNumbers, AonResult, BestAonResult } from "@/types/aon-types";
+import { Games } from "@/types/games-enum";
 
 interface AonResultsProps {
   key: number;
@@ -23,6 +24,7 @@ const AonResults = (props: AonResultsProps) => {
   const [wins, setWins] = useState<number>(0);
   const [moneyUsed, setMoneyUsed] = useState<number>(0);
   const [bestResult, setBestResult] = useState<BestAonResult | null>(null);
+  const [simulationFinished, setSimulationFinished] = useState(false);
 
   const listRef = useRef<List>(null);
 
@@ -78,6 +80,7 @@ const AonResults = (props: AonResultsProps) => {
         } else {
           clearInterval(intervalId);
           props.onSimulationDone();
+          setSimulationFinished(true);
         }
       };
       // const intervalDuration = Math.max(25000 / weeks, 50);
@@ -152,6 +155,8 @@ const AonResults = (props: AonResultsProps) => {
           moneyUsed={moneyUsed}
           handleClick={handleClickJump}
           bestResult={bestResult}
+          game={Games.AllOrNothing}
+          simulationFinished={simulationFinished}
         />
       )}
     </div>

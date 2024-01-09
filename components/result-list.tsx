@@ -6,6 +6,7 @@ import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ResultSummary from "./result-summary";
 import { BestResult, PlayerNumbers, Result } from "@/types/lotto-types";
+import { Games } from "@/types/games-enum";
 
 interface ResultListProps {
   key: number;
@@ -22,6 +23,7 @@ const ResultList = (props: ResultListProps) => {
   const [wins, setWins] = useState<number>(0);
   const [moneyUsed, setMoneyUsed] = useState<number>(0);
   const [bestResult, setBestResult] = useState<BestResult | null>(null);
+  const [simulationFinished, setSimulationFinished] = useState(false);
 
   const listRef = useRef<List>(null);
 
@@ -75,6 +77,7 @@ const ResultList = (props: ResultListProps) => {
         } else {
           clearInterval(intervalId);
           props.onSimulationDone();
+          setSimulationFinished(true);
         }
       };
       // const intervalDuration = Math.max(25000 / weeks, 50);
@@ -126,7 +129,7 @@ const ResultList = (props: ResultListProps) => {
     <div className="flex h-screen flex-col">
       <div
         className={`flex w-full ${
-          props.rows.length < 4 ? "h-1/3 sm:h-1/2" : "h-1/2"
+          props.rows.length < 4 ? "h-1/3 sm:h-1/3" : "h-1/2"
         } my-6 rounded-lg border p-1`}
       >
         <AutoSizer>
@@ -149,6 +152,8 @@ const ResultList = (props: ResultListProps) => {
           moneyUsed={moneyUsed}
           handleClick={handleClickJump}
           bestResult={bestResult}
+          game={Games.Lotto}
+          simulationFinished={simulationFinished}
         />
       )}
     </div>
