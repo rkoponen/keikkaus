@@ -6,9 +6,10 @@ import Scoreslist from "@/components/highscores";
 import clientPromise from "@/lib/mongodb";
 import { Highscore } from "@/types/highscore";
 import { getScores } from "@/lib/db-utils";
+import { Games } from "@/types/games-enum";
 
 export default async function Home() {
-  const scores = await getScores();
+  const scores = await getScores(Games.AllOrNothing);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-2 font-mono sm:p-12">
@@ -47,7 +48,6 @@ export default async function Home() {
           </Link>
         </div>
       </div>
-      <Scoreslist scores={scores} />
     </main>
   );
 }

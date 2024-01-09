@@ -14,3 +14,10 @@ export const selectNumbersFromRange = (maxNumber: number, amount: number) => {
 
   return selectedNumbers.sort((a, b) => a - b);
 };
+
+export const formatMoney = (money: number): string => {
+  return money.toLocaleString("fi-FI", {
+    style: "currency",
+    currency: "EUR",
+  });
+};

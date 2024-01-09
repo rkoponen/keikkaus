@@ -8,7 +8,6 @@ interface NumberGridProps {
   handleNumberClick: (number: number) => void;
 }
 const NumberGrid = (props: NumberGridProps) => {
-  const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
 
   let numbers = Array.from({ length: props.selectableLength }, (_, index) => {
     return index + 1;
@@ -32,7 +31,7 @@ const NumberGrid = (props: NumberGridProps) => {
                 props.handleNumberClick(x);
               }}
               className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-cyan-600 text-sm text-slate-100 hover:border hover:border-cyan-400 sm:h-12 sm:w-12 ${
-                selected ? "bg-blue-600" : ""
+                selected ? "bg-blue-400" : ""
               }`}
             >
               {x}
