@@ -47,7 +47,7 @@ const SingleAonResult: React.FC<SingleAonResultProps> = (props) => {
           const win = winAmount > 0;
           return (
             <div
-              className="mb-2 flex flex-col gap-2 rounded-xl border p-2 sm:gap-6 md:flex-row"
+              className="mb-2 flex flex-col gap-2 rounded-xl border p-2 sm:gap-2 md:flex-row"
               key={rowIndex}
             >
               <div className="flew-row flex items-center justify-between gap-2">
@@ -84,7 +84,7 @@ const SingleAonResult: React.FC<SingleAonResultProps> = (props) => {
                   </div>
                 )}
               </div>
-              <div className="flex w-full flex-row items-center justify-between">
+              <div className="flex w-full flex-row md:flex-col items-center justify-between">
                 <span className="">
                   Osumat: {props.playerResults[rowIndex].correctNumbers.length}
                 </span>
