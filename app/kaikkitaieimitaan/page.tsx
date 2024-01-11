@@ -1,4 +1,4 @@
-import Scoreslist from "@/components/highscores";
+import Scoreslist from "@/components/scores-list";
 import { Games } from "@/types/games-enum";
 import AonOptions from "@/components/aon-options";
 

@@ -97,9 +97,14 @@ const ResultSummary = (props: ResultSummaryProps) => {
                       className="border-grey rounded-md border p-1"
                       onChange={(e) => setNickname(e.target.value)}
                     />
+                    {nickname.length > 20 && (
+                      <span className="text-sm text-red-300">
+                        Nimimerkin maksimipituus on 20 merkkiä.
+                      </span>
+                    )}
                     <Button
                       className="disable:bg-grey mt-4"
-                      disabled={nickname.length < 1}
+                      disabled={nickname.length < 1 || nickname.length > 20}
                       onClick={handleClickSave}
                     >
                       Tallenna

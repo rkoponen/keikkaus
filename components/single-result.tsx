@@ -84,7 +84,7 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
                   </div>
                 )}
               </div>
-              <div className="flex w-full flex-row items-center justify-between">
+              <div className="flex w-full flex-row items-center justify-between md:flex-col">
                 <span className="">
                   Osumat: {props.playerResults[rowIndex].correctNumbers.length}{" "}
                   {props.playerResults[rowIndex].extraCorrect ? "+ 1" : ""}
