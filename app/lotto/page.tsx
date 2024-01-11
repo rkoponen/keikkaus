@@ -1,7 +1,7 @@
 import React from "react";
 
 import LottoGame from "@/components/lotto-game";
-import Scoreslist from "@/components/highscores";
+import Scoreslist from "@/components/scores-list";
 import { Games } from "@/types/games-enum";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
