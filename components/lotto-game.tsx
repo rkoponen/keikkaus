@@ -1,6 +1,6 @@
 "use client";
 import { selectPlusNumber } from "@/app/utils/lotto-utils";
-import { sortNumbers } from "@/app/utils/number-utils";
+import { selectNumbersFromRange, sortNumbers } from "@/app/utils/number-utils";
 import { PlayerNumbers } from "@/types/lotto-types";
 import React, { useRef, useState } from "react";
 import { BsPCircle, BsTrash3Fill } from "react-icons/bs";
@@ -100,6 +100,15 @@ const LottoGame = () => {
     setSimulationDone(true);
     setStartSimulation(false);
   };
+  const handleRandomClick = () => {
+    let newRow = selectNumbersFromRange(40, 7);
+    const newNumbers: PlayerNumbers = {
+      numbers: newRow,
+      plusNumber: plusNumber ? selectPlusNumber() : undefined,
+    };
+    setRows([...rows, newNumbers]);
+  };
+
   return (
     <div className="z-10 flex w-full flex-col items-center justify-center gap-6 font-mono text-sm">
       <div className="rounded-lg border border-black p-2">
@@ -132,6 +141,10 @@ const LottoGame = () => {
       <div className="w-full">
         <ChosenNumbers selectedNumbers={selectedNumbers} length={7} />
       </div>
+      <Button onClick={handleRandomClick} className="w-full">
+        Arvo rivi
+      </Button>
+
       <div className="w-full text-center">
         <h2 className="text-center text-lg">Valitut rivit</h2>
         {rows.length > 0 ? (
