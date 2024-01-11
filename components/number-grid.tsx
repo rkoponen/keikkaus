@@ -31,7 +31,7 @@ const NumberGrid = (props: NumberGridProps) => {
                 props.handleNumberClick(x);
               }}
               className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-cyan-600 text-sm text-slate-100 hover:border hover:border-cyan-400 sm:h-12 sm:w-12 ${
-                selected ? "bg-blue-400" : ""
+                selected ? "bg-yellow-500" : "bg-cyan-600"
               }`}
             >
               {x}
