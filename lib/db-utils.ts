@@ -2,7 +2,7 @@ import { Highscore } from "@/types/highscore";
 import clientPromise from "./mongodb";
 import { Games } from "@/types/games-enum";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 1;
 
 export const getScores = async (game: Games) => {
   const client = await clientPromise;
