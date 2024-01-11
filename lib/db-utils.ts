@@ -2,8 +2,9 @@ import { Highscore } from "@/types/highscore";
 import clientPromise from "./mongodb";
 import { Games } from "@/types/games-enum";
 
+export const dynamic = "force-dynamic";
+
 export const getScores = async (game: Games) => {
-  "use server";
   const client = await clientPromise;
   const db = client.db("keikkaus");
 
