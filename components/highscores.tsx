@@ -6,6 +6,8 @@ interface ScoresListProps {
   game: Games;
 }
 
+export const dynamic = "force-dynamic";
+
 const Scoreslist = async ({ game }: ScoresListProps) => {
   const scores = await getScores(game);
 
