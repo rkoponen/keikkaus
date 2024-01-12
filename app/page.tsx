@@ -2,9 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import lotto from "../public/lotto.svg";
 import aon from "../public/aon.svg";
-import Scoreslist from "@/components/highscores";
-import clientPromise from "@/lib/mongodb";
-import { Highscore } from "@/types/highscore";
 import { getScores } from "@/lib/db-utils";
 import { Games } from "@/types/games-enum";
 
@@ -14,7 +11,7 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-2 font-mono sm:p-12">
       <div>
-        <h1 className="mb-10 text-xl font-bold tracking-widest">Pelit</h1>
+        <h1 className="mb-2 text-xl font-bold tracking-widest">Pelit</h1>
       </div>
       <div className="flex flex-col items-center justify-center gap-4 sm:grid sm:w-max sm:grid-cols-2 sm:gap-10">
         <div>
