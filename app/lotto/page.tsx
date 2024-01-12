@@ -8,6 +8,8 @@ let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
 });
 
+export const dynamic = "force-dynamic";
+
 const LottoPage = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2">
