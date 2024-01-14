@@ -1,4 +1,4 @@
-import { Result, selectLotteryNumbers, checkResult } from "./lotto-utils";
+import { Result, selectLotteryNumbers, checkLottoResult } from "./lotto-utils";
 import { LotteryResult } from "./lotto-utils";
 
 describe("selectLotteryNumbers", () => {
@@ -18,7 +18,7 @@ describe("checkResult", () => {
       extraNumber: 8,
     };
 
-    const result: Result = checkResult(playerRow, lotteryResult);
+    const result: Result = checkLottoResult(playerRow, lotteryResult);
 
     expect(result.correctNumbers).toEqual(playerRow);
     expect(result.extraCorrect).toBeFalsy();
@@ -31,7 +31,7 @@ describe("checkResult", () => {
       extraNumber: 24,
     };
 
-    const result: Result = checkResult(playerRow, lotteryResult);
+    const result: Result = checkLottoResult(playerRow, lotteryResult);
 
     expect(result.correctNumbers).toEqual([]);
     expect(result.extraCorrect).toBeFalsy();
@@ -79,7 +79,7 @@ describe("checkResult", () => {
       numbers: [5, 6, 7, 9, 12, 13, 14],
       extraNumber: 1,
     };
-    const result: Result = checkResult(playerRow, lotteryResult);
+    const result: Result = checkLottoResult(playerRow, lotteryResult);
 
     expect(result.correctNumbers).toHaveLength(3);
   });

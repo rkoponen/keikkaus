@@ -1,22 +1,34 @@
 import React, { useEffect, useRef, useState } from "react";
-import SingleResult from "./single-result";
-import { checkResult, selectLotteryNumbers } from "@/app/utils/lotto-utils";
 import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ResultSummary from "./result-summary";
-import { BestResult, PlayerNumbers, Result } from "@/types/lotto-types";
-import { Games } from "@/types/games-enum";
+import { checkAonResult, selectAonNumbers } from "@/app/utils/aon-utils";
+import SingleAonResult from "./single-aon-result";
+import { AonNumbers, AonResult, BestAonResult } from "@/types/aon-types";
+import { Games } from "@/types/enum";
+import {
+  BestResult,
+  PlayerNumbers,
+  PlayerResult,
+  PlayerRows,
+  isLottoResult,
+} from "@/types/lotto-types";
+import { selectLotteryNumbers } from "@/app/utils/lotto-utils";
+import { checkResults } from "@/app/utils/number-utils";
+import SingleResult from "./single-result";
 
-interface ResultListProps {
+interface ResultsProps {
+  game: Games;
   key: number;
   years: number;
-  rows: PlayerNumbers[];
+  rows: PlayerRows;
   onSimulationDone: () => void;
   startSimulation: boolean;
+  betSize: number;
 }
 
-const ResultList = (props: ResultListProps) => {
+const Results = (props: ResultsProps) => {
   const weeks = props.years * 52;
   const [resultList, setResultList] = useState<React.JSX.Element[]>([]);
   const [week, setWeek] = useState<number>(1);
@@ -40,28 +52,32 @@ const ResultList = (props: ResultListProps) => {
           const renderSpeed =
             props.years > 20 ? Math.round(props.years / 10) + 3 : 1;
           for (let i = week; i < week + renderSpeed && i <= weeks; i++) {
-            const lotteryResult = selectLotteryNumbers();
+            const generatedNumbers =
+              props.game === Games.Lotto
+                ? selectLotteryNumbers()
+                : selectAonNumbers();
 
-            const playerResults: Result[] = props.rows.map((row) => {
-              const result = checkResult(row, lotteryResult);
-              newWins += result.winAmount;
-              row.plusNumber ? (newMoneyUsed += 1.5) : (newMoneyUsed += 1);
-
-              if (
-                !newBestResult ||
-                result.winAmount > newBestResult.result.winAmount
-              ) {
-                newBestResult = {
-                  result: result,
-                  index: i - 1,
-                };
+            const playerResults: PlayerResult[] = props.rows.map((row) => {
+              const result = checkResults(
+                props.game,
+                row,
+                generatedNumbers,
+                props.betSize,
+              );
+              if (result.result) {
+                newWins += result.result.winAmount;
+                if (
+                  !newBestResult ||
+                  result.result.winAmount > newBestResult.result.winAmount
+                ) {
+                  newBestResult = { result: result.result, index: i - 1 };
+                }
               }
-
               return result;
             });
             newItems.push(
               <SingleResult
-                lotteryResult={lotteryResult}
+                lotteryResult={generatedNumbers}
                 playerResults={playerResults}
                 rows={props.rows}
                 week={i}
@@ -113,7 +129,6 @@ const ResultList = (props: ResultListProps) => {
   };
 
   const getRowHeight = () => {
-    console.log(`Rowheihgt: ${rowHeight.current}`);
     if (rowHeight.current) {
       return rowHeight.current;
     }
@@ -129,8 +144,8 @@ const ResultList = (props: ResultListProps) => {
     <div className="flex h-screen flex-col">
       <div
         className={`flex w-full ${
-          props.rows.length < 4 ? "h-1/3 sm:h-1/3" : "h-1/2"
-        } my-6 rounded-lg border p-1`}
+          props.rows.length < 4 ? "h-3/4 sm:h-1/3" : "h-1/2"
+        } my-2 rounded-lg border p-1 sm:my-6`}
       >
         <AutoSizer>
           {({ height, width }) => (
@@ -152,7 +167,7 @@ const ResultList = (props: ResultListProps) => {
           moneyUsed={moneyUsed}
           handleClick={handleClickJump}
           bestResult={bestResult}
-          game={Games.Lotto}
+          game={props.game}
           simulationFinished={simulationFinished}
         />
       )}
@@ -160,4 +175,4 @@ const ResultList = (props: ResultListProps) => {
   );
 };
 
-export default ResultList;
+export default Results;

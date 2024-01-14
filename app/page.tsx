@@ -2,12 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import lotto from "../public/lotto.svg";
 import aon from "../public/aon.svg";
-import { getScores } from "@/lib/db-utils";
-import { Games } from "@/types/games-enum";
 
 export default async function Home() {
-  const scores = await getScores(Games.AllOrNothing);
-
   return (
     <main className="flex min-h-screen flex-col items-center p-2 font-mono sm:p-12">
       <div>

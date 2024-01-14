@@ -1,7 +1,7 @@
 "use client";
 import { selectPlusNumber } from "@/app/utils/lotto-utils";
 import { selectNumbersFromRange, sortNumbers } from "@/app/utils/number-utils";
-import { PlayerNumbers } from "@/types/lotto-types";
+import { LottoNumbers, PlayerNumbers } from "@/types/lotto-types";
 import React, { useRef, useState } from "react";
 import { BsPCircle, BsTrash3Fill } from "react-icons/bs";
 import { ButtonTooltip } from "./button-tooltip";
@@ -11,6 +11,8 @@ import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
+import { Games } from "@/types/enum";
+import Results from "./results";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
@@ -18,7 +20,7 @@ let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
 
 const LottoGame = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
-  const [rows, setRows] = useState<PlayerNumbers[]>([]);
+  const [rows, setRows] = useState<LottoNumbers[]>([]);
   const [years, setYears] = useState<number>(25);
   const [startSimulation, setStartSimulation] = useState<boolean>(false);
   const [resultListKey, setResultListKey] = useState<number>(0);
@@ -226,7 +228,9 @@ const LottoGame = () => {
           hidden={rows.length === 0}
         />
         {(startSimulation || simulationDone) && (
-          <ResultList
+          <Results
+            game={Games.Lotto}
+            betSize={1}
             onSimulationDone={handleSimulationDone}
             startSimulation={startSimulation}
             years={years}

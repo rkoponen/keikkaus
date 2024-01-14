@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { BestAonResult } from "@/types/aon-types";
-import { BestResult } from "@/types/lotto-types";
-import { Games } from "@/types/games-enum";
+import { BestResult, isLottoResult } from "@/types/lotto-types";
+import { Games } from "@/types/enum";
 import { addScore } from "@/lib/create-utils";
 import {
   Popover,
@@ -14,7 +14,7 @@ import { Highscore } from "@/types/highscore";
 interface ResultSummaryProps {
   wins: number;
   moneyUsed: number;
-  bestResult: BestResult | BestAonResult;
+  bestResult: BestResult;
   game: Games;
   simulationFinished: boolean;
   handleClick: () => void;
@@ -66,7 +66,7 @@ const ResultSummary = (props: ResultSummaryProps) => {
         <p className="">Paras tulos</p>
         <p className="text-lg">
           {props.bestResult?.result.correctNumbers.length}
-          {isBestResult(props.bestResult) &&
+          {isLottoResult(props.bestResult.result) &&
           props.bestResult.result.extraCorrect
             ? " + 1"
             : ""}{" "}

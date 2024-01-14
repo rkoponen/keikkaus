@@ -1,6 +1,6 @@
 import { Highscore } from "@/types/highscore";
 import clientPromise from "./mongodb";
-import { Games } from "@/types/games-enum";
+import { Games } from "@/types/enum";
 
 export const revalidate = 1;
 
