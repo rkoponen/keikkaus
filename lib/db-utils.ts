@@ -12,7 +12,7 @@ export const getScores = async (game: Games) => {
     .collection<Highscore>("highscores")
     .find({ game: game })
     .sort({ score: -1 })
-    .limit(100)
+    .limit(15)
     .toArray();
   return scores;
 };
