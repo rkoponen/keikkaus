@@ -4,7 +4,6 @@ import { BsPCircleFill, BsPlusLg } from "react-icons/bs";
 import {
   GeneratedNumbers,
   PlayerNumbers,
-  LottoResult,
   PlayerResult,
   isLottoNumbers,
   isPlayerResult,
@@ -17,7 +16,7 @@ interface LotteryNumberProps {
 
 const LotteryNumber: React.FC<LotteryNumberProps> = ({ number }) => {
   return (
-    <div className="flex h-8 w-8 items-center justify-center rounded-full border bg-green-200 md:h-10 md:w-10">
+    <div className="flex h-8 w-8 items-center justify-center rounded-full border bg-green-200">
       {number}
     </div>
   );
@@ -36,18 +35,18 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
       <div className="flex flex-col">
         <span> Arvonta: {props.week}.</span>
         <span>Oikea rivi</span>
-        <div className="my-2 flex flex-row items-center justify-between gap-1 rounded-lg border p-2">
+        <div className="my-2 flex flex-row items-center justify-between gap-2 rounded-lg border p-2">
           {props.lotteryResult.numbers.map((number, index) => (
             <LotteryNumber key={index} number={number} />
           ))}
           {isLottoNumbers(props.lotteryResult) && (
-            <div className="flex flex-row items-center justify-between gap-1">
-              <BsPlusLg className="text-xl" />
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-400 bg-slate-100 sm:h-10 sm:w-10">
+            <div className="flex flex-row items-center justify-between gap-2">
+              <BsPlusLg className="text-lg" />
+              <div className="flex h-6 w-6 items-center justify-center rounded-full border border-green-400 sm:h-8 sm:w-8">
                 {props.lotteryResult.extraNumber}
               </div>
               <BsPCircleFill />
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500 sm:h-10 sm:w-10">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500">
                 {props.lotteryResult.plusNumber}
               </div>
             </div>
@@ -55,7 +54,6 @@ const SingleResult: React.FC<SingleResultProps> = (props) => {
         </div>
         <span>Rivisi</span>
         {props.rows.map((row, rowIndex) => {
-          // console.log(props.playerResults[rowIndex]);
           if (
             isPlayerResult(props.playerResults[rowIndex]) &&
             props.playerResults[rowIndex]

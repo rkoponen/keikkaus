@@ -3,17 +3,9 @@ import { VariableSizeList as List } from "react-window";
 import { CSSProperties } from "react";
 import AutoSizer from "react-virtualized-auto-sizer";
 import ResultSummary from "./result-summary";
-import { checkAonResult, selectAonNumbers } from "@/app/utils/aon-utils";
-import SingleAonResult from "./single-aon-result";
-import { AonNumbers, AonResult, BestAonResult } from "@/types/aon-types";
+import { selectAonNumbers } from "@/app/utils/aon-utils";
 import { Games } from "@/types/enum";
-import {
-  BestResult,
-  PlayerNumbers,
-  PlayerResult,
-  PlayerRows,
-  isLottoResult,
-} from "@/types/lotto-types";
+import { BestResult, PlayerResult, PlayerRows } from "@/types/lotto-types";
 import { selectLotteryNumbers } from "@/app/utils/lotto-utils";
 import { checkResults } from "@/app/utils/number-utils";
 import SingleResult from "./single-result";
@@ -66,6 +58,7 @@ const Results = (props: ResultsProps) => {
               );
               if (result.result) {
                 newWins += result.result.winAmount;
+                newMoneyUsed += result.moneyUsed!;
                 if (
                   !newBestResult ||
                   result.result.winAmount > newBestResult.result.winAmount
