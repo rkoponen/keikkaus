@@ -1,6 +1,6 @@
 import { Highscore } from "@/types/highscore";
 import clientPromise from "./mongodb";
-import { Games } from "@/types/games-enum";
+import { Games } from "@/types/enum";
 
 export const revalidate = 1;
 
@@ -12,7 +12,7 @@ export const getScores = async (game: Games) => {
     .collection<Highscore>("highscores")
     .find({ game: game })
     .sort({ score: -1 })
-    .limit(100)
+    .limit(15)
     .toArray();
   return scores;
 };

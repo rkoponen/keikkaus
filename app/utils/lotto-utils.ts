@@ -1,6 +1,10 @@
-import { LotteryResult, PlayerNumbers, Result } from "@/types/lotto-types";
+import {
+  GeneratedNumbers,
+  PlayerNumbers,
+  LottoResult,
+  LottoNumbers,
+} from "@/types/lotto-types";
 import prizeData from "../prizeData.json";
-
 
 enum PrizeCategories {
   Seven = "7 oikein",
@@ -11,7 +15,7 @@ enum PrizeCategories {
 
 const numbers = Array.from({ length: 40 }, (_, index) => index + 1);
 
-export const selectLotteryNumbers = (): LotteryResult => {
+export const selectLotteryNumbers = (): GeneratedNumbers => {
   for (let i = numbers.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
@@ -33,21 +37,22 @@ export const selectPlusNumber = () => {
   return Math.floor(Math.random() * 30) + 1;
 };
 
-export const checkResult = (
-  playerRow: PlayerNumbers,
-  lotteryResult: LotteryResult
-): Result => {
+export const checkLottoResult = (
+  playerRow: LottoNumbers,
+  lotteryNumbers: LottoNumbers,
+): LottoResult => {
   let correctNumbers: number[] = [];
 
   playerRow.numbers.forEach((number, index) => {
-    if (lotteryResult.numbers.includes(number))
+    if (lotteryNumbers.numbers.includes(number))
       correctNumbers = [...correctNumbers, number];
   });
 
   let extraCorrect: boolean = playerRow.numbers.includes(
-    lotteryResult.extraNumber
+    lotteryNumbers.extraNumber!,
   );
-  const plusCorrect: boolean = playerRow.plusNumber == lotteryResult.plusNumber;
+  const plusCorrect: boolean =
+    playerRow.plusNumber == lotteryNumbers.plusNumber;
 
   return {
     correctNumbers: correctNumbers,
@@ -65,7 +70,7 @@ const getRandomFromArray = (arrayKey: PrizeCategories) => {
 export const calculateWinAmount = (
   correctNumbers: number[],
   extraCorrect: boolean,
-  plusCorrect: boolean
+  plusCorrect: boolean,
 ): number => {
   let win = 0;
   if (correctNumbers.length === 7)

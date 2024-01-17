@@ -1,6 +1,6 @@
 import { formatMoney } from "@/app/utils/number-utils";
 import { getScores } from "@/lib/db-utils";
-import { Games } from "@/types/games-enum";
+import { Games } from "@/types/enum";
 
 interface ScoresListProps {
   game: Games;

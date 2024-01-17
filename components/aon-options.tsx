@@ -4,7 +4,6 @@ import { sortNumbers, selectNumbersFromRange } from "@/app/utils/number-utils";
 import { AonNumbers } from "@/types/aon-types";
 import React, { useRef, useState } from "react";
 import { LuClover } from "react-icons/lu";
-import AonResults from "./aon-results";
 import { ButtonTooltip } from "./button-tooltip";
 import ChosenNumbers from "./chosen-numbers";
 import ChosenRows from "./chosen-rows";
@@ -12,6 +11,8 @@ import NumberGrid from "./number-grid";
 import { Button } from "./ui/button";
 import { Slider } from "./ui/slider";
 import { Switch } from "./ui/switch";
+import Results from "./results";
+import { Games } from "@/types/enum";
 
 const AonOptions = () => {
   const [rows, setRows] = useState<AonNumbers[]>([]);
@@ -105,7 +106,7 @@ const AonOptions = () => {
     setRows([...rows, newNumbers]);
   };
   return (
-    <div className="flex flex-col items-center justify-center gap-6 w-full">
+    <div className="flex w-full flex-col items-center justify-center gap-6">
       <div className="rounded-lg border border-black p-2">
         <h1 className="font-mono text-2xl font-bold italic tracking-widest text-slate-600">
           Kaikki tai ei mitään
@@ -118,7 +119,9 @@ const AonOptions = () => {
         selectedNumbers={selectedNumbers}
       />
       <ChosenNumbers selectedNumbers={selectedNumbers} length={length} />
-      <Button onClick={handleRandomClick} className="w-full">Arvo rivi</Button>
+      <Button onClick={handleRandomClick} className="w-full">
+        Arvo rivi
+      </Button>
       <ChosenRows rows={rows} handleClickDelete={handleClickDelete} />
       <div className="flex w-full flex-col items-center justify-center gap-8 sm:flex-row">
         <div className="flex flex-col items-center justify-center">
@@ -198,7 +201,8 @@ const AonOptions = () => {
           hidden={rows.length === 0}
         />
         {(startSimulation || simulationDone) && (
-          <AonResults
+          <Results
+            game={Games.AllOrNothing}
             onSimulationDone={handleSimulationDone}
             startSimulation={startSimulation}
             years={years}
