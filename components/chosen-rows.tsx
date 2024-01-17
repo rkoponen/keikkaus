@@ -1,9 +1,18 @@
 import { AonNumbers } from "@/types/aon-types";
-import { BsTrash3Fill } from "react-icons/bs";
+import { Games } from "@/types/enum";
+import {
+  LottoNumbers,
+  PlayerRows,
+  isAonNumbers,
+  isLottoNumbers,
+} from "@/types/lotto-types";
+import { BsPCircle, BsTrash3Fill } from "react-icons/bs";
 import { LuClover } from "react-icons/lu";
+import AonRow from "./aon-row";
+import LottoRow from "./lotto-row";
 
 interface ChosenRowsProps {
-  rows: AonNumbers[];
+  rows: PlayerRows;
   handleClickDelete: (index: number) => void;
 }
 
@@ -12,28 +21,30 @@ const ChosenRows = (props: ChosenRowsProps) => {
     <div className="flex w-full flex-col items-center text-center">
       <h2 className="text-center text-lg">Valitut rivit</h2>
       {props.rows.length > 0 ? (
-        <div className="flex w-full flex-col flex-wrap items-center justify-center sm:w-max">
+        <div className="flex w-full flex-col items-center justify-center">
           {props.rows.map((row, index) => (
             <div
               key={index}
-              className="mt-2 flex w-full flex-row items-center justify-between gap-1 rounded-xl border p-2 text-center sm:w-max"
+              className="mt-2 flex w-full flex-row items-center justify-between gap-1 rounded-xl border p-2 text-center"
             >
-              <div className="space-between grid w-full grid-cols-6 grid-rows-2 gap-2 sm:mr-2 sm:w-10/12 sm:grid-cols-12 sm:grid-rows-1">
-                {row.numbers.map((number, innerIndex) => (
-                  <div
-                    key={innerIndex}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border p-1 text-sm sm:h-10 sm:w-10"
-                    data-testid="selected-number"
-                  >
-                    {number}
-                  </div>
-                ))}
-              </div>
+              {isAonNumbers(row) && <AonRow row={row} />}
+              {isLottoNumbers(row) && <LottoRow row={row} />}
+
               <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-                {row.luckyClover && (
+                {isAonNumbers(row) && row.luckyClover && (
                   <div className="flex flex-row items-center gap-1">
                     <LuClover className="text-xl" />
                     {row.luckyClover}
+                  </div>
+                )}
+                {isLottoNumbers(row) && row.plusNumber && (
+                  <div className="flex flex-row items-center justify-between gap-2">
+                    <div>
+                      <BsPCircle className="h-6 w-6 rounded-full text-purple-500" />
+                    </div>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500 p-1 sm:h-10 sm:w-10">
+                      {row.plusNumber}
+                    </div>
                   </div>
                 )}
                 <button

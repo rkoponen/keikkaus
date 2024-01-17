@@ -1,16 +1,17 @@
 "use client";
 import { selectPlusNumber } from "@/app/utils/lotto-utils";
 import { selectNumbersFromRange, sortNumbers } from "@/app/utils/number-utils";
-import { PlayerNumbers } from "@/types/lotto-types";
+import { LottoNumbers, PlayerNumbers } from "@/types/lotto-types";
 import React, { useRef, useState } from "react";
-import { BsPCircle, BsTrash3Fill } from "react-icons/bs";
 import { ButtonTooltip } from "./button-tooltip";
 import ChosenNumbers from "./chosen-numbers";
-import ResultList from "./result-list";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
+import { Games } from "@/types/enum";
+import Results from "./results";
+import ChosenRows from "./chosen-rows";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
@@ -18,7 +19,7 @@ let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
 
 const LottoGame = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
-  const [rows, setRows] = useState<PlayerNumbers[]>([]);
+  const [rows, setRows] = useState<LottoNumbers[]>([]);
   const [years, setYears] = useState<number>(25);
   const [startSimulation, setStartSimulation] = useState<boolean>(false);
   const [resultListKey, setResultListKey] = useState<number>(0);
@@ -146,42 +147,10 @@ const LottoGame = () => {
       </Button>
 
       <div className="w-full text-center">
-        <h2 className="text-center text-lg">Valitut rivit</h2>
+        {/* <h2 className="text-center text-lg">Valitut rivit</h2> */}
         {rows.length > 0 ? (
           <div className="w-full">
-            {rows.map((row, index) => (
-              <div
-                key={index}
-                className="mt-2 flex w-full flex-row items-center justify-between gap-1 rounded-xl border p-2 text-center"
-              >
-                {row.numbers.map((number, innerIndex) => (
-                  <div
-                    key={innerIndex}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border p-1 text-sm sm:h-10 sm:w-10"
-                    data-testid="selected-number"
-                  >
-                    {number}
-                  </div>
-                ))}
-                {row.plusNumber && (
-                  <div className="flex flex-row items-center justify-between gap-2">
-                    <div>
-                      <BsPCircle className="h-6 w-6 rounded-full text-purple-500" />
-                    </div>
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500 p-1 sm:h-10 sm:w-10">
-                      {row.plusNumber}
-                    </div>
-                  </div>
-                )}
-                <button
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white sm:h-10 sm:w-10"
-                  onClick={() => handleClickDelete(index)}
-                  data-testid="delete"
-                >
-                  <BsTrash3Fill className="h-4 w-4 text-slate-100" />
-                </button>
-              </div>
-            ))}
+            <ChosenRows rows={rows} handleClickDelete={handleClickDelete} />
           </div>
         ) : (
           <p>Valitse vähintään yksi rivi.</p>
@@ -226,7 +195,9 @@ const LottoGame = () => {
           hidden={rows.length === 0}
         />
         {(startSimulation || simulationDone) && (
-          <ResultList
+          <Results
+            game={Games.Lotto}
+            betSize={1}
             onSimulationDone={handleSimulationDone}
             startSimulation={startSimulation}
             years={years}

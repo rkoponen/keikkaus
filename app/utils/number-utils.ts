@@ -1,3 +1,15 @@
+import { AonNumbers } from "@/types/aon-types";
+import { Games } from "@/types/enum";
+import {
+  GeneratedNumbers,
+  PlayerNumbers,
+  PlayerResult,
+  isAonNumbers,
+  isLottoNumbers,
+} from "@/types/lotto-types";
+import { checkLottoResult } from "./lotto-utils";
+import { checkAonResult } from "./aon-utils";
+
 export const sortNumbers = (numbers: number[], newNumber: number) => {
   return [...numbers, newNumber].sort((a, b) => a - b);
 };
@@ -20,4 +32,41 @@ export const formatMoney = (money: number): string => {
     style: "currency",
     currency: "EUR",
   });
+};
+
+export const checkResults = (
+  game: Games,
+  playerRow: PlayerNumbers,
+  generatedRow: GeneratedNumbers,
+  betSize: number,
+): PlayerResult => {
+  console.log("hello!");
+  if (
+    game === Games.AllOrNothing &&
+    isAonNumbers(generatedRow) &&
+    isAonNumbers(playerRow)
+  ) {
+    const result = checkAonResult(
+      playerRow as AonNumbers,
+      generatedRow,
+      betSize,
+    );
+    const moneyUsed = playerRow.luckyClover ? betSize * 2 : betSize;
+    return {
+      result: result,
+      moneyUsed: moneyUsed,
+    };
+  } else if (
+    game === Games.Lotto &&
+    isLottoNumbers(generatedRow) &&
+    isLottoNumbers(playerRow)
+  ) {
+    console.log("hello!");
+    const result = checkLottoResult(playerRow, generatedRow);
+    return {
+      result: result,
+      moneyUsed: playerRow.plusNumber ? 1.5 : 1,
+    };
+  }
+  return {};
 };
