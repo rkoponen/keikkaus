@@ -1,4 +1,4 @@
-import { AonNumbers } from "@/types/aon-types";
+import { AonNumbers } from "@/types/lotto-types";
 import React from "react";
 
 interface AonRowProps {

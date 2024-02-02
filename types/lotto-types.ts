@@ -1,4 +1,21 @@
-import { AonNumbers, AonResult } from "./aon-types";
+
+export type AonNumbers = {
+  numbers: number[];
+  luckyClover?: number;
+};
+
+export type AonResult = {
+  correctNumbers: number[];
+  cloverCorrect: boolean;
+  winAmount: number;
+};
+
+export type BestAonResult = {
+  result: AonResult;
+  index: number;
+};
+
+
 
 export type LottoNumbers = {
   numbers: number[];
