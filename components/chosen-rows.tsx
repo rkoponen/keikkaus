@@ -1,7 +1,4 @@
-import { AonNumbers } from "@/types/lotto-types";
-import { Games } from "@/types/enum";
 import {
-  LottoNumbers,
   PlayerRows,
   isAonNumbers,
   isLottoNumbers,

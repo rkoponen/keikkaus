@@ -1,6 +1,5 @@
 import {
   GeneratedNumbers,
-  PlayerNumbers,
   LottoResult,
   LottoNumbers,
 } from "@/types/lotto-types";
