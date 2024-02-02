@@ -1,7 +1,6 @@
-import { AonNumbers, AonResult } from "../../types/aon-types";
+import { AonNumbers, AonResult } from "../../types/lotto-types";
 import { selectNumbersFromRange } from "./number-utils";
 
-const numbers = Array.from({ length: 12 }, (_, index) => index + 1);
 
 export const selectAonNumbers = (): AonNumbers => {
   const selectedNumbers = selectNumbersFromRange(24, 12);
