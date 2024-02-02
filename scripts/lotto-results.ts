@@ -1,28 +1,24 @@
 import * as fs from "fs/promises";
 import { json } from "stream/consumers";
 
-type Lotto = {
+export type GameResults = {
   id: number;
   prizeTiers: PrizeTier[];
 };
 
-type PrizeTier = {
+export type PrizeTier = {
   name: string;
   shareAmount: number;
   multiplier: boolean;
 };
 
-const fetchResultsAndWriteToFile = async () => {
+const fetchResultsAndWriteToFile = async (gameName: string, fileName: string) => {
   // const response = await fetch(
   //   "https://www.veikkaus.fi/api/draw-results/v1/games/LOTTO/draws/by-week/2023-W44"
   // );
 
-  const baseUrl =
-    "https://www.veikkaus.fi/api/draw-results/v1/games/LOTTO/draws/by-week/";
-  // const result = await response.json();
-  // console.log(result[0]);
-  // const lotto: Lotto = result[0];
-  const results = new Map();
+  const baseUrl =`https://www.veikkaus.fi/api/draw-results/v1/games/${gameName}/draws/by-week/`;
+
   const prizeData: Record<string, number[]> = {};
 
   for (let i = 2017; i < new Date().getFullYear(); i++) {
@@ -30,9 +26,9 @@ const fetchResultsAndWriteToFile = async () => {
       const url = `${baseUrl}${i}-W${j < 10 ? `0${j}` : j}`;
       const response = await fetch(url);
       const result = await response.json();
-      const lotto: Lotto = result[0];
-      console.log(lotto.id);
-      lotto.prizeTiers.forEach((tier) => {
+      const gameResult: GameResults = result[0];
+      console.log(gameResult.id);
+      gameResult.prizeTiers.forEach((tier) => {
         const name = tier.name;
         if (!prizeData[name]) {
           prizeData[name] = [];
@@ -47,10 +43,16 @@ const fetchResultsAndWriteToFile = async () => {
 
   try {
     const jsonData = JSON.stringify(prizeData, null, 2);
-    await fs.writeFile(process.cwd() + "/app/prizeData.json", jsonData);
+    await fs.writeFile(process.cwd() + `/app/${fileName}`, jsonData);
   } catch (error) {
     console.error("Error writing prizeData.json:", error);
   }
 };
 
-fetchResultsAndWriteToFile();
+fetchResultsAndWriteToFile("LOTTO", "prizeData.json");
+fetchResultsAndWriteToFile("EJACKPOT", "ejackpot-prize-data.json")
+
+
+
+
+

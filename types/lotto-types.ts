@@ -15,7 +15,20 @@ export type BestAonResult = {
   index: number;
 };
 
+export type EjpNumbers = {
+  numbers: number[];
+  starNumbers: number[];
+}
 
+export const isEjpNumbers = (numbers: PlayerNumbers): numbers is EjpNumbers => {
+  return numbers.numbers.length === 5;
+}
+
+export type EjpResult = {
+  correctNumbers: number[];
+  startNumbersCorrect: number[];
+  winAmount: number;
+}
 
 export type LottoNumbers = {
   numbers: number[];
@@ -32,11 +45,11 @@ export type LottoNumbers = {
 //   )
 // }
 
-export type PlayerNumbers = LottoNumbers | AonNumbers;
+export type PlayerNumbers = LottoNumbers | AonNumbers | EjpNumbers;
 
 export type PlayerRows = LottoNumbers[] | AonNumbers[];
 
-export type GeneratedNumbers = AonNumbers | LottoNumbers;
+export type GeneratedNumbers = AonNumbers | LottoNumbers | EjpNumbers;
 
 export const isAonNumbers = (
   numbers: AonNumbers | LottoNumbers,
