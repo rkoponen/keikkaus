@@ -1,7 +1,7 @@
 "use client";
 import { selectClover } from "@/app/utils/aon-utils";
 import { sortNumbers, selectNumbersFromRange } from "@/app/utils/number-utils";
-import { AonNumbers } from "@/types/aon-types";
+import { AonNumbers } from "@/types/lotto-types";
 import React, { useRef, useState } from "react";
 import { LuClover } from "react-icons/lu";
 import { ButtonTooltip } from "./button-tooltip";

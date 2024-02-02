@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { BestAonResult } from "@/types/aon-types";
-import { BestResult, isLottoResult } from "@/types/lotto-types";
+import { BestResult, BestAonResult, isLottoResult } from "@/types/lotto-types";
 import { Games } from "@/types/enum";
 import { addScore } from "@/lib/create-utils";
 import {
