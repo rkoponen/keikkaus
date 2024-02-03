@@ -12,6 +12,8 @@ import { Slider } from "./ui/slider";
 import { Games } from "@/types/enum";
 import Results from "./results";
 import ChosenRows from "./chosen-rows";
+import { YearsSlider } from "./years-slider";
+import { SimulationButton } from "./simulation-button";
 
 let lottoNumbers = Array.from({ length: 40 }, (_, index) => {
   return index + 1;
@@ -129,9 +131,8 @@ const LottoGame = () => {
               <div
                 key={x}
                 onClick={() => handleClick(x)}
-                className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-cyan-600 text-sm text-slate-100 hover:border hover:border-cyan-400 sm:h-12 sm:w-12 ${
-                  selected ? "bg-green-500" : ""
-                }`}
+                className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-cyan-600 text-sm text-slate-100 hover:border hover:border-cyan-400 sm:h-12 sm:w-12 ${selected ? "bg-green-500" : ""
+                  }`}
               >
                 {x}
               </div>
@@ -162,38 +163,9 @@ const LottoGame = () => {
           <Switch id="plus-number" onCheckedChange={handleSwitchChange} />
         </div>
       )}
-
-      <div className="w-full text-center">
-        <label className="" htmlFor="slider">
-          Kuinka monta vuotta haluat simuloida?
-        </label>
-        <Slider
-          className="mt-2"
-          id="slider"
-          defaultValue={[25]}
-          min={1}
-          max={100}
-          step={1}
-          onValueChange={handleSliderChange}
-        />
-        <span className="text-lg font-medium">{years} vuotta</span>
-      </div>
+      <YearsSlider handleSliderChange={handleSliderChange} years={years} />
       <div className="h-screen w-full" ref={scrollContainerRef}>
-        <ButtonTooltip
-          button={
-            <Button
-              className="mt-4 w-full"
-              onClick={handleClickSimulation}
-              disabled={rows.length === 0}
-            >
-              {startSimulation === true
-                ? `Lopeta simulaatio`
-                : "Aloita simulaatio"}
-            </Button>
-          }
-          text={"Valitse vähintään yksi rivi."}
-          hidden={rows.length === 0}
-        />
+        <SimulationButton handleClickSimulation={handleClickSimulation} rows={rows} startSimulation={startSimulation} />
         {(startSimulation || simulationDone) && (
           <Results
             game={Games.Lotto}
