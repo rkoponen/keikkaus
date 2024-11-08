@@ -171,7 +171,7 @@ const AonOptions = () => {
           </div>
         )}
       </div>
-      <YearsSlider handleSliderChange={handleSliderChange} years={years} />
+      <YearsSlider handleSliderChange={() => handleSliderChange} years={years} />
       <div className="h-screen w-full" ref={scrollContainerRef}>
         <SimulationButton handleClickSimulation={handleClickSimulation} startSimulation={startSimulation} rows={rows} />
         {(startSimulation || simulationDone) && (

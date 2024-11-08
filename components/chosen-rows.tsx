@@ -1,12 +1,14 @@
 import {
   PlayerRows,
   isAonNumbers,
+  isEjpNumbers,
   isLottoNumbers,
 } from "@/types/lotto-types";
 import { BsPCircle, BsTrash3Fill } from "react-icons/bs";
 import { LuClover } from "react-icons/lu";
 import AonRow from "./aon-row";
 import LottoRow from "./lotto-row";
+import EjackpotRow from "./ejackpot-row";
 
 interface ChosenRowsProps {
   rows: PlayerRows;
@@ -26,7 +28,7 @@ const ChosenRows = (props: ChosenRowsProps) => {
             >
               {isAonNumbers(row) && <AonRow row={row} />}
               {isLottoNumbers(row) && <LottoRow row={row} />}
-
+              {isEjpNumbers(row) && <EjackpotRow row={row} />}
               <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
                 {isAonNumbers(row) && row.luckyClover && (
                   <div className="flex flex-row items-center gap-1">

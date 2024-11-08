@@ -26,7 +26,7 @@ export const isEjpNumbers = (numbers: PlayerNumbers): numbers is EjpNumbers => {
 
 export type EjpResult = {
   correctNumbers: number[];
-  startNumbersCorrect: number[];
+  correctStarNumbers: number[];
   winAmount: number;
 }
 
@@ -47,7 +47,7 @@ export type LottoNumbers = {
 
 export type PlayerNumbers = LottoNumbers | AonNumbers | EjpNumbers;
 
-export type PlayerRows = LottoNumbers[] | AonNumbers[];
+export type PlayerRows = LottoNumbers[] | AonNumbers[] | EjpNumbers[];
 
 export type GeneratedNumbers = AonNumbers | LottoNumbers | EjpNumbers;
 
