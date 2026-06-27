@@ -1,4 +1,34 @@
-import { AonNumbers, AonResult } from "./aon-types";
+
+export type AonNumbers = {
+  numbers: number[];
+  luckyClover?: number;
+};
+
+export type AonResult = {
+  correctNumbers: number[];
+  cloverCorrect: boolean;
+  winAmount: number;
+};
+
+export type BestAonResult = {
+  result: AonResult;
+  index: number;
+};
+
+export type EjpNumbers = {
+  numbers: number[];
+  starNumbers: number[];
+}
+
+export const isEjpNumbers = (numbers: PlayerNumbers): numbers is EjpNumbers => {
+  return numbers.numbers.length === 5;
+}
+
+export type EjpResult = {
+  correctNumbers: number[];
+  correctStarNumbers: number[];
+  winAmount: number;
+}
 
 export type LottoNumbers = {
   numbers: number[];
@@ -15,11 +45,11 @@ export type LottoNumbers = {
 //   )
 // }
 
-export type PlayerNumbers = LottoNumbers | AonNumbers;
+export type PlayerNumbers = LottoNumbers | AonNumbers | EjpNumbers;
 
-export type PlayerRows = LottoNumbers[] | AonNumbers[];
+export type PlayerRows = LottoNumbers[] | AonNumbers[] | EjpNumbers[];
 
-export type GeneratedNumbers = AonNumbers | LottoNumbers;
+export type GeneratedNumbers = AonNumbers | LottoNumbers | EjpNumbers;
 
 export const isAonNumbers = (
   numbers: AonNumbers | LottoNumbers,

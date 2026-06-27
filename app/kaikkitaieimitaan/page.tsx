@@ -1,6 +1,7 @@
 import Scoreslist from "@/components/scores-list";
 import { Games } from "@/types/enum";
 import AonOptions from "@/components/aon-options";
+import React from "react";
 
 export const dynamic = "force-dynamic";
 

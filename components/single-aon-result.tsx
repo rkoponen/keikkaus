@@ -1,4 +1,4 @@
-import { AonNumbers, AonResult } from "@/types/aon-types";
+import { AonNumbers, AonResult } from "@/types/lotto-types";
 import React from "react";
 
 import { LuClover } from "react-icons/lu";

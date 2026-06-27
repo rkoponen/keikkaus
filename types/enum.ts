@@ -1,4 +1,5 @@
 export enum Games {
   Lotto = "lotto",
-  AllOrNothing = "all or nothing"
+  AllOrNothing = "all or nothing",
+  Eurojackpot="eurojackpot",
 }

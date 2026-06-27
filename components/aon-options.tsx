@@ -1,7 +1,7 @@
 "use client";
 import { selectClover } from "@/app/utils/aon-utils";
 import { sortNumbers, selectNumbersFromRange } from "@/app/utils/number-utils";
-import { AonNumbers } from "@/types/aon-types";
+import { AonNumbers } from "@/types/lotto-types";
 import React, { useRef, useState } from "react";
 import { LuClover } from "react-icons/lu";
 import { ButtonTooltip } from "./button-tooltip";
@@ -13,6 +13,8 @@ import { Slider } from "./ui/slider";
 import { Switch } from "./ui/switch";
 import Results from "./results";
 import { Games } from "@/types/enum";
+import { SimulationButton } from "./simulation-button";
+import { YearsSlider } from "./years-slider";
 
 const AonOptions = () => {
   const [rows, setRows] = useState<AonNumbers[]>([]);
@@ -169,37 +171,9 @@ const AonOptions = () => {
           </div>
         )}
       </div>
-      <div className="w-full text-center">
-        <label className="" htmlFor="slider">
-          Kuinka monta vuotta haluat simuloida?
-        </label>
-        <Slider
-          className="mt-2"
-          id="slider"
-          defaultValue={[25]}
-          min={1}
-          max={100}
-          step={1}
-          onValueChange={handleSliderChange}
-        />
-        <span className="text-lg font-medium">{years} vuotta</span>
-      </div>
+      <YearsSlider handleSliderChange={() => handleSliderChange} years={years} />
       <div className="h-screen w-full" ref={scrollContainerRef}>
-        <ButtonTooltip
-          button={
-            <Button
-              className="mt-4 w-full"
-              onClick={handleClickSimulation}
-              disabled={rows.length === 0}
-            >
-              {startSimulation === true
-                ? `Lopeta simulaatio`
-                : "Aloita simulaatio"}
-            </Button>
-          }
-          text={"Valitse vähintään yksi rivi."}
-          hidden={rows.length === 0}
-        />
+        <SimulationButton handleClickSimulation={handleClickSimulation} startSimulation={startSimulation} rows={rows} />
         {(startSimulation || simulationDone) && (
           <Results
             game={Games.AllOrNothing}
